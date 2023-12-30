@@ -1,16 +1,32 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const productSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const brandSchema = require('./brand.model').schema;
+
+const productSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    brandList: [brandSchema],
   },
-  quantity: {
-    type: Number,
-    required: true,
+  {
+    methods: {
+      async addBrand(brand) {
+        this.brandList.push(brand);
+      },
+      async removeBrand(brand) {
+        this.brandList = this.brandList.filter(
+          (brandItem) => brandItem !== brand,
+        );
+      },
+    },
   },
-  brandList: Buffer,
-});
+);
 
 module.exports = mongoose.model('Product', productSchema);
