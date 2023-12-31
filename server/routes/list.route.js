@@ -5,6 +5,6 @@ const { getLists, addList } = require('../controllers.js/list.controller');
 const router = express.Router();
 
 router.get('/', getLists);
-router.post('/list', addList);
+router.post('/', addList);
 
 module.exports = router;
