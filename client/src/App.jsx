@@ -50,7 +50,7 @@ function App() {
       quantity: form.quantity.value,
     };
 
-    await fetch(`http://localhost:5000/${form.dataset.id}`, {
+    await fetch(`http://localhost:5000/${form.dataset.listid}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,6 +60,33 @@ function App() {
 
     form.name.value = '';
     form.quantity.value = '';
+  }
+
+  async function addBrand(e) {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const newBrand = {
+      name: form.name.value,
+      quantity: form.quantity.value,
+      price: form.price.value,
+    };
+
+    await fetch(
+      `http://localhost:5000/${form.dataset.listid}/${form.dataset.productid}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newBrand),
+      },
+    );
+
+    form.name.value = '';
+    form.quantity.value = '';
+    form.price.value = '';
   }
 
   return (
@@ -82,7 +109,7 @@ function App() {
                   })}
                 </p>
 
-                <form data-id={list._id} onSubmit={addProduct}>
+                <form data-listid={list._id} onSubmit={addProduct}>
                   <input type="text" required name="name" />
                   <input type="number" name="quantity" />
                   <input type="submit" required value="Add Product" />
@@ -94,12 +121,26 @@ function App() {
                     <li key={product._id}>
                       <header>
                         {product.quantity} - {product.name}
-                        <form data-id={list._id} onSubmit={addProduct}>
+                        <form
+                          data-listid={list._id}
+                          data-productid={product._id}
+                          onSubmit={addBrand}
+                        >
                           <input type="text" required name="name" />
                           <input type="number" name="quantity" />
+                          <input type="number" name="price" />
                           <input type="submit" required value="Add Brand" />
                         </form>
                       </header>
+                      <ul>
+                        {product.brandList.map((brand) => {
+                          return (
+                            <p>
+                              {brand.quantity} - R${brand.price} - {brand.name}
+                            </p>
+                          );
+                        })}
+                      </ul>
                     </li>
                   );
                 })}
