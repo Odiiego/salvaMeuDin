@@ -10,7 +10,8 @@ const listSchema = new Schema(
       type: String,
       required: true,
     },
-    tags: Buffer,
+    theme: String,
+    tags: [{ type: String }],
     productList: [productSchema],
   },
   {
