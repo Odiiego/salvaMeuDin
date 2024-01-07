@@ -5,6 +5,7 @@ const brandSchema = require('./brand.model').schema;
 
 const productSchema = new Schema(
   {
+    listID: String,
     name: {
       type: String,
       required: true,
