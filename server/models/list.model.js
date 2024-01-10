@@ -19,7 +19,7 @@ const listSchema = new Schema(
       async addProduct(product) {
         this.productList.push(product);
       },
-      async removeBrand(product) {
+      async removeProduct(product) {
         this.productList = this.productList.filter(
           (productItem) => productItem !== product,
         );
