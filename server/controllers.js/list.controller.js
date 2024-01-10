@@ -11,6 +11,15 @@ const getLists = async (req, res) => {
   }
 };
 
+const getList = async (req, res) => {
+  try {
+    const list = await List.findById(req.params.listID);
+    res.status(200).json(list);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const addList = async (req, res) => {
   const list = new List(req.body);
 
@@ -49,4 +58,4 @@ const addBrand = async (req, res) => {
   }
 };
 
-module.exports = { getLists, addList, addProduct, addBrand };
+module.exports = { getLists, getList, addList, addProduct, addBrand };

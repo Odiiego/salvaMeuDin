@@ -2,6 +2,7 @@ const express = require('express');
 
 const {
   getLists,
+  getList,
   addList,
   addProduct,
   addBrand,
@@ -10,6 +11,7 @@ const {
 const router = express.Router();
 
 router.get('/', getLists);
+router.get('/:listID', getList);
 router.post('/', addList);
 router.post('/:listID', addProduct);
 router.post('/:listID/:productID', addBrand);
