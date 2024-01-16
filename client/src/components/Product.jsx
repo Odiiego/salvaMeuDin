@@ -10,6 +10,8 @@ const Product = ({ data }) => {
     const form = e.target;
 
     const newBrand = {
+      listID: product.listID,
+      productID: product._id,
       name: form.name.value,
       quantity: form.quantity.value,
       price: form.price.value,

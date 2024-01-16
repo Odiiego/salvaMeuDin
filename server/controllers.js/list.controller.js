@@ -51,11 +51,32 @@ const addBrand = async (req, res) => {
   await product.addBrand(brand);
 
   try {
-    const newBrand = await list.save();
-    res.status(201).json(newBrand);
+    const newBrandList = await list.save();
+    res.status(201).json(newBrandList);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
-module.exports = { getLists, getList, addList, addProduct, addBrand };
+const deleteBrand = async (req, res) => {
+  const list = await List.findById(req.params.listID);
+  const product = list.productList.id(req.params.productID);
+  const brand = product.brandList.id(req.params.brandID);
+  product.removeBrand(brand);
+
+  try {
+    const newBrandList = await list.save();
+    res.status(201).json(newBrandList);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  getLists,
+  getList,
+  addList,
+  addProduct,
+  addBrand,
+  deleteBrand,
+};
