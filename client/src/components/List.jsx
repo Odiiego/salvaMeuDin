@@ -22,6 +22,7 @@ const List = () => {
     const form = e.target;
 
     const newProduct = {
+      listID: id,
       name: form.name.value,
       quantity: form.quantity.value,
     };

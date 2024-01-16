@@ -31,9 +31,25 @@ const Product = ({ data }) => {
     window.location.reload();
   }
 
+  async function deleteProduct() {
+    await fetch(
+      `http://localhost:5000/delete/${product.listID}/${product._id}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    window.location.reload();
+  }
+
   return (
     <>
-      <p>{`${product.quantity}un ${product.name}`}</p>
+      <p>
+        {`${product.quantity}un ${product.name}`}
+        <button onClick={deleteProduct}>X</button>
+      </p>
       <form onSubmit={addBrand}>
         <input placeholder="Price" type="number" name="price" />
         <input placeholder="Quant" type="number" name="quantity" />

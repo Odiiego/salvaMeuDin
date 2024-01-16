@@ -72,6 +72,19 @@ const deleteBrand = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  const list = await List.findById(req.params.listID);
+  const product = list.productList.id(req.params.productID);
+  list.removeProduct(product);
+
+  try {
+    const newBrandList = await list.save();
+    res.status(201).json(newBrandList);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getLists,
   getList,
@@ -79,4 +92,5 @@ module.exports = {
   addProduct,
   addBrand,
   deleteBrand,
+  deleteProduct,
 };
