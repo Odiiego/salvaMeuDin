@@ -18,7 +18,7 @@ const Brand = ({ data }) => {
 
   return (
     <p>
-      R${brand.price} {brand.quantity}un {brand.name}{' '}
+      R${brand.price} {brand.quantity}un {brand.name} {brand.unitPrice}
       <button onClick={deleteBrand}>X</button>
     </p>
   );

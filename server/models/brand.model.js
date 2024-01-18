@@ -16,6 +16,12 @@ const brandSchema = new Schema({
     type: Number,
     required: true,
   },
+  unitPrice: {
+    type: Number,
+    default: function calculatePricePerUnit() {
+      return this.price / this.quantity;
+    },
+  },
 });
 
 module.exports = mongoose.model('Brand', brandSchema);

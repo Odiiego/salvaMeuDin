@@ -47,7 +47,9 @@ const Product = ({ data }) => {
   return (
     <>
       <p>
-        {`${product.quantity}un ${product.name}`}
+        {`${product.quantity}un ${product.name} ${
+          product.bestPricePerUnit ? product.bestPricePerUnit : ''
+        }`}
         <button onClick={deleteProduct}>X</button>
       </p>
       <form onSubmit={addBrand}>

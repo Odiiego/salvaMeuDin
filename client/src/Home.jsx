@@ -28,6 +28,7 @@ const Home = ({ data }) => {
     form.name.value = '';
     form.theme.value = '';
     form.tags.value = '';
+    window.location.reload();
   }
 
   return (
