@@ -20,6 +20,16 @@ const getList = async (req, res) => {
   }
 };
 
+const getProduct = async (req, res) => {
+  try {
+    const list = await List.findById(req.params.listID);
+    const product = await list.productList.id(req.params.productID);
+    res.status(201).json(product);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 const addList = async (req, res) => {
   const list = new List(req.body);
 
@@ -89,6 +99,7 @@ module.exports = {
   getLists,
   getList,
   addList,
+  getProduct,
   addProduct,
   addBrand,
   deleteBrand,
