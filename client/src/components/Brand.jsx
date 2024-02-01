@@ -1,7 +1,8 @@
 import React from 'react';
+import styles from './Brand.module.scss';
 
 const Brand = ({ data }) => {
-  const brand = data;
+  const [brand, setBrand] = React.useState(data);
 
   async function deleteBrand() {
     await fetch(
@@ -13,14 +14,30 @@ const Brand = ({ data }) => {
         },
       },
     );
-    window.location.reload();
+
+    setBrand(null);
   }
 
   return (
-    <p>
-      R${brand.price} {brand.quantity}un {brand.name} {brand.unitPrice}
-      <button onClick={deleteBrand}>X</button>
-    </p>
+    brand && (
+      <li className={styles.brand}>
+        <p className={styles.brand__price}>
+          <span>R$</span>
+          {brand.price.toFixed(2).replace('.', ',')}
+        </p>
+        <p className={styles.brand__quantity}>
+          {brand.quantity}
+          <span>un</span>
+        </p>
+        <p className={styles.brand__name}>{brand.name}</p>
+        <p className={styles.brand__unitPrice}>
+          <span>R$</span>
+          {brand.unitPrice.toFixed(2).replace('.', ',')}
+          <span>/un</span>
+        </p>
+        <button onClick={deleteBrand}>X</button>
+      </li>
+    )
   );
 };
 

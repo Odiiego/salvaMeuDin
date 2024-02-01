@@ -1,0 +1,86 @@
+.product {
+  font-size: 1.2rem;
+  margin-top: 0.2ch;
+  &__header {
+    height: 2rem;
+
+    label {
+      height: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .btn__container {
+        display: flex;
+      }
+    }
+
+    p {
+      display: inline-block;
+      margin: 0;
+
+      span {
+        color: grey;
+        margin: 0 0.2ch;
+        font-size: 1rem;
+      }
+    }
+
+    &__quantity {
+      width: 12ch;
+    }
+    &__name {
+      width: 20ch;
+    }
+
+    .form {
+      height: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        display: flex;
+      }
+
+      input {
+        margin: 0.1rem;
+      }
+
+      .price {
+        width: 10ch;
+      }
+
+      .quantity {
+        width: 10ch;
+      }
+
+      .name {
+        width: 20ch;
+      }
+    }
+  }
+
+  &__content {
+    margin: 0;
+    padding-left: 1rem;
+  }
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  width: 21.2px;
+  height: 21.2px;
+  .icon {
+    width: 21.2px;
+    height: 21.2px;
+    cursor: pointer;
+  }
+}

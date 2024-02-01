@@ -1,6 +1,8 @@
 import React from 'react';
 import Product from './Product';
 import { useParams } from 'react-router-dom';
+import styles from './List.module.scss';
+import { CiCirclePlus } from 'react-icons/ci';
 
 const List = () => {
   const { id } = useParams();
@@ -41,23 +43,49 @@ const List = () => {
   }
 
   return !list ? null : (
-    <>
-      <h1>{list.name}</h1>
-      <h2>{list.theme}</h2>
-      <ul>
-        {list.tags.map((tag, index) => {
-          return <li key={index}>{`${tag} \t`}</li>;
+    <main className={styles.list}>
+      <header className={styles.list__header}>
+        <h1 className={styles.list__header__name}>{list.name}</h1>
+        <h2 className={styles.list__header__theme}>{list.theme}</h2>
+        <ul>
+          {list.tags.map((tag, index) => {
+            return (
+              <li
+                className={styles.list__header__tag}
+                key={index}
+              >{`${tag} \t`}</li>
+            );
+          })}
+        </ul>
+      </header>
+      <section className={styles.list__content}>
+        <form
+          className={styles.form}
+          data-listid={list._id}
+          onSubmit={addProduct}
+        >
+          <input
+            placeholder="Quant"
+            type="number"
+            name="quantity"
+            className={styles.quantity}
+          />
+          <input
+            placeholder="Product Name"
+            type="text"
+            required
+            name="name"
+            className={styles.name}
+          />
+          <button type="submit">
+            <CiCirclePlus className={styles.icon} />
+          </button>
+        </form>
+        {list.productList.map((product) => {
+          return <Product key={product._id} data={product} />;
         })}
-      </ul>
-      <form data-listid={list._id} onSubmit={addProduct}>
-        <input placeholder="Quant" type="number" name="quantity" />
-        <input placeholder="Product Name" type="text" required name="name" />
-        <input type="submit" required value="Add Product" />
-      </form>
-      {list.productList.map((product) => {
-        return <Product key={product._id} data={product} />;
-      })}
-    </>
+      </section>
+    </main>
   );
 };
 
