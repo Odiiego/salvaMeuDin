@@ -27,4 +27,21 @@ body {
   background-image: url(./assets/bg.png);
   background-repeat: no-repeat;
   background-size: auto;
+  display: flex;
+  justify-content: center;
+
+  main {
+    max-width: 900px;
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #00214d;
+  border-radius: 2px;
 }

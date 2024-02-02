@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Brand.module.scss';
+import { CiTrash } from 'react-icons/ci';
 
 const Brand = ({ data }) => {
   const [brand, setBrand] = React.useState(data);
@@ -35,7 +36,9 @@ const Brand = ({ data }) => {
           {brand.unitPrice.toFixed(2).replace('.', ',')}
           <span>/un</span>
         </p>
-        <button onClick={deleteBrand}>X</button>
+        <button className={styles.button} onClick={deleteBrand}>
+          <CiTrash className={styles.icon} />
+        </button>
       </li>
     )
   );

@@ -32,7 +32,7 @@ const Home = ({ data }) => {
   }
 
   return (
-    <>
+    <main>
       <form onSubmit={addList}>
         <input type="text" placeholder="List Name" required name="name" />
         <input type="text" placeholder="List theme" name="theme" />
@@ -42,7 +42,7 @@ const Home = ({ data }) => {
       {lists.map((list) => {
         return <ListThumbnail key={list._id} data={list} />;
       })}
-    </>
+    </main>
   );
 };
 

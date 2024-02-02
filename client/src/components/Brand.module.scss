@@ -1,6 +1,8 @@
 .brand {
+  display: flex;
   font-size: 1.2rem;
   list-style: none;
+
   p {
     display: inline-block;
     margin: 0;
@@ -23,5 +25,23 @@
   }
   &__unitPrice {
     width: 13ch;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
   }
 }

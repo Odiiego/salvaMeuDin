@@ -2,29 +2,26 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 5rem;
-  * {
-    // border: 1px solid goldenrod;
-  }
 
   &__header {
     width: 40%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     max-width: 23rem;
     user-select: none;
+    min-height: calc(100vh - 5rem);
 
     &__name {
       text-align: center;
       color: #fde24f;
       font-size: 4rem;
       line-height: 4rem;
-      max-width: 23rem;
-      margin-bottom: 0;
-      font-weight: 400;
+      max-width: 9ch;
+      margin: 0;
+      font-weight: 500;
     }
 
     &__theme {
@@ -55,15 +52,22 @@
     }
   }
 
+  .content__wrapper {
+    overflow-y: scroll;
+    margin-right: 0.2rem;
+    padding-right: 0.5rem;
+  }
+
   &__content {
-    width: 60%;
+    width: 50%;
+    min-width: 414px;
+    max-height: calc(100vh - 10rem);
+    height: fit-content;
     background-color: white;
-    padding: 2rem 2rem;
+    padding: 2rem 0rem 2rem 2rem;
     display: flex;
     flex-direction: column;
-    position: relative;
     border-radius: 0.25rem;
-    overflow: hidden;
     clip-path: polygon(0 0, 0 0, 90% 0, 100% 3rem, 100% 100%, 0% 100%, 10% 100%, 0% 100%);
 
     .form {
@@ -102,4 +106,10 @@
       }
     }
   }
+}
+
+.warning {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
 }

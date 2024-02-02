@@ -81,9 +81,15 @@ const List = () => {
             <CiCirclePlus className={styles.icon} />
           </button>
         </form>
-        {list.productList.map((product) => {
-          return <Product key={product._id} data={product} />;
-        })}
+        <div className={styles.content__wrapper}>
+          {list.productList.length == 0 ? (
+            <p className={styles.warning}>A lista está vazia..</p>
+          ) : (
+            list.productList.map((product) => {
+              return <Product key={product._id} data={product} />;
+            })
+          )}
+        </div>
       </section>
     </main>
   );
