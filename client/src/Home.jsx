@@ -1,5 +1,7 @@
 import React from 'react';
 import ListThumbnail from './components/ListThumbnail';
+import styles from './Home.module.scss';
+import { CiCirclePlus } from 'react-icons/ci';
 
 const Home = ({ data }) => {
   const lists = data;
@@ -32,16 +34,36 @@ const Home = ({ data }) => {
   }
 
   return (
-    <main>
-      <form onSubmit={addList}>
-        <input type="text" placeholder="List Name" required name="name" />
-        <input type="text" placeholder="List theme" name="theme" />
-        <input type="text" placeholder="List tags" name="tags" />
-        <input type="submit" required value="Add List" />
+    <main className={styles.home}>
+      <form className={styles.form} onSubmit={addList}>
+        <input
+          className={styles.form__name}
+          type="text"
+          placeholder="List Name"
+          required
+          name="name"
+        />
+        <input
+          className={styles.form__theme}
+          type="text"
+          placeholder="List theme"
+          name="theme"
+        />
+        <input
+          className={styles.form__tags}
+          type="text"
+          placeholder="List tags"
+          name="tags"
+        />
+        <button type="submit">
+          <CiCirclePlus className={styles.icon} />
+        </button>
       </form>
-      {lists.map((list) => {
-        return <ListThumbnail key={list._id} data={list} />;
-      })}
+      <div className={styles.home__container}>
+        {lists.map((list) => {
+          return <ListThumbnail key={list._id} data={list} />;
+        })}
+      </div>
     </main>
   );
 };

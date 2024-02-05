@@ -6,12 +6,13 @@ import {
   CiUndo,
   CiTrash,
   CiCircleChevDown,
+  CiCircleChevUp,
 } from 'react-icons/ci';
 
 const Product = ({ data }) => {
   const [product, setProduct] = React.useState(data);
   const [activeForm, setActiveForm] = React.useState(false);
-  const [activeBrandList, setActiveBrandList] = React.useState(false);
+  const [activeBrandList, setActiveBrandList] = React.useState(true);
 
   function toggleBrandForm() {
     setActiveForm(!activeForm);
@@ -77,27 +78,30 @@ const Product = ({ data }) => {
       <div className={styles.product}>
         <div className={styles.product__header}>
           {!activeForm ? (
-            <>
-              <label>
-                <input type="checkbox" />
-                <p className={styles.product__header__quantity}>
-                  {product.quantity}
-                  <span>un</span>
-                </p>
-                <p className={styles.product__header__name}>{product.name}</p>
-                <span className={styles.btn__container}>
-                  <button onClick={toggleBrandForm}>
-                    <CiCirclePlus className={styles.icon} />
+            <div className={styles.label}>
+              <p className={styles.product__header__quantity}>
+                {product.quantity}
+                <span>un</span>
+              </p>
+              <p className={styles.product__header__name}>{product.name}</p>
+              <span className={styles.btn__container}>
+                <button onClick={toggleBrandForm}>
+                  <CiCirclePlus className={styles.icon} />
+                </button>
+                {activeBrandList ? (
+                  <button onClick={toggleBrandList}>
+                    <CiCircleChevUp className={styles.icon} />
                   </button>
+                ) : (
                   <button onClick={toggleBrandList}>
                     <CiCircleChevDown className={styles.icon} />
                   </button>
-                  <button onClick={deleteProduct}>
-                    <CiTrash className={styles.icon} />
-                  </button>
-                </span>
-              </label>
-            </>
+                )}
+                <button onClick={deleteProduct}>
+                  <CiTrash className={styles.icon} />
+                </button>
+              </span>
+            </div>
           ) : (
             <>
               <form className={styles.form} onSubmit={addBrand}>
@@ -139,11 +143,13 @@ const Product = ({ data }) => {
             </>
           )}
         </div>
-        <ul className={styles.product__content}>
-          {product.brandList.map((brand) => {
-            return <Brand key={brand._id} data={brand} />;
-          })}
-        </ul>
+        {activeBrandList ? (
+          <ul className={styles.product__content}>
+            {product.brandList.map((brand) => {
+              return <Brand key={brand._id} data={brand} />;
+            })}
+          </ul>
+        ) : null}
       </div>
     )
   );
