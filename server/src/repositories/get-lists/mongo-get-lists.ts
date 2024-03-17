@@ -1,14 +1,17 @@
 import { IGetListsRepository } from "../../controllers/get-lists/protocols";
+import { MongoClient } from "../../database/mongo";
 import { IList } from "../../models/list";
 
 export class MongoGetListsRepository implements IGetListsRepository {
   async getLists(): Promise<IList[]> {
-    return [
-      {
-        name: "Nome da Lista",
-        description: "Essa é uma lista de teste",
-        content: [],
-      },
-    ];
+    const lists = await MongoClient.db
+      .collection<Omit<IList, "id">>("lists")
+      .find({})
+      .toArray();
+
+    return lists.map(({ _id, ...rest }) => ({
+      ...rest,
+      id: _id.toHexString(),
+    }));
   }
 }
