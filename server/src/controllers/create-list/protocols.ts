@@ -1,4 +1,5 @@
 import { IList } from "../../models/list";
+import { IProduct } from "../../models/product";
 import { HttpResponse, HttpRequest } from "../protocols";
 
 export interface ICreateListController {
@@ -13,7 +14,7 @@ export interface ICreateListParams {
 }
 
 export interface IContentParam {
-  content: IList[];
+  content: IProduct[];
 }
 
 export interface ICreatListRepository {
