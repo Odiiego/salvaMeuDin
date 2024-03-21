@@ -11,5 +11,16 @@ export class MongoUpdateListRepository implements IUpdateListRepository {
     await MongoClient.db
       .collection("lists")
       .updateOne({ _id: new ObjectId(id) }, { $set: { ...params } });
+
+    const list = await MongoClient.db
+      .collection<Omit<IList, "id">>("lists")
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!list) {
+      throw new Error("List not updated");
+    }
+
+    const { _id, ...rest } = list;
+    return { id: _id.toHexString(), ...rest };
   }
 }
