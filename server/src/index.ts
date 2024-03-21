@@ -5,6 +5,8 @@ import { MongoGetListsRepository } from "./repositories/get-lists/mongo-get-list
 import { MongoClient } from "./database/mongo";
 import { MongoCreateListRepository } from "./repositories/create-list/mongo-create-list";
 import { CreateListController } from "./controllers/create-list/create-list";
+import { MongoUpdateListRepository } from "./repositories/update-list/mongo-update-list";
+import { UpdateListController } from "./controllers/update-list/update-list";
 
 const main = async () => {
   config();
@@ -29,6 +31,20 @@ const main = async () => {
 
     const { body, statusCode } = await createListController.handle({
       body: req.body,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.put("/lists/:id", async (req, res) => {
+    const mongoUpdateListRepository = new MongoUpdateListRepository();
+    const updateListController = new UpdateListController(
+      mongoUpdateListRepository,
+    );
+
+    const { body, statusCode } = await updateListController.handle({
+      body: req.body,
+      params: req.params,
     });
 
     res.status(statusCode).send(body);

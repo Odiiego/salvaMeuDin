@@ -4,7 +4,7 @@ export interface HttpResponse<T> {
 }
 
 export interface HttpRequest<B> {
-  header?: unknown;
-  params?: unknown;
+  header?: string;
+  params?: { id: string };
   body?: B;
 }
