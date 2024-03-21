@@ -1,6 +1,6 @@
 import { ICreateListParams } from "../controllers/create-list/protocols";
 
-export default function isListParams(
+export default function checkCreateListParams(
   list: ICreateListParams,
 ): list is ICreateListParams {
   const { name, description, ...rest } = list;

@@ -1,5 +1,5 @@
 import { IList } from "../../models/list";
-import isListParams from "../../utils/isListParams";
+import checkCreateListParams from "../../utils/checkCreateListParams";
 import { HttpRequest, HttpResponse } from "../protocols";
 import {
   ICreatListRepository,
@@ -21,7 +21,7 @@ export class CreateListController implements ICreateListController {
         };
       }
 
-      if (!isListParams(HttpRequest.body)) {
+      if (!checkCreateListParams(HttpRequest.body)) {
         return {
           statusCode: 403,
           body: "Invalid parameter",
