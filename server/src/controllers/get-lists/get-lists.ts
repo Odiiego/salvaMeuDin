@@ -1,3 +1,4 @@
+import { ok, serverError } from "../helpers";
 import { IController } from "../protocols";
 import { IGetListsRepository } from "./protocols";
 
@@ -8,15 +9,9 @@ export class GetListsController implements IController {
     try {
       const lists = await this.getListsRepository.getLists();
 
-      return {
-        statusCode: 200,
-        body: lists,
-      };
+      return ok(lists);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong.",
-      };
+      return serverError();
     }
   }
 }

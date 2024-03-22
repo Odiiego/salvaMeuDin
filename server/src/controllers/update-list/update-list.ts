@@ -1,5 +1,5 @@
 import { IList } from "../../models/list";
-import checkUpdateListParams from "../../utils/checkUpdateListParams";
+import { badRequest, checkUpdateListParams, ok, serverError } from "../helpers";
 import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { IUpdateListParams, IUpdateListRepository } from "./protocols";
 
@@ -7,43 +7,19 @@ export class UpdateListController implements IController {
   constructor(private readonly updateListRepository: IUpdateListRepository) {}
   async handle(
     httpRequest: HttpRequest<IUpdateListParams>,
-  ): Promise<HttpResponse<IList>> {
+  ): Promise<HttpResponse<IList | string>> {
     try {
       const id = httpRequest?.params?.id;
       const body = httpRequest?.body;
 
-      if (!body) {
-        return {
-          statusCode: 400,
-          body: "Please specify a body",
-        };
-      }
-
-      if (!id) {
-        return {
-          statusCode: 400,
-          body: "Missing user id",
-        };
-      }
-
-      if (!checkUpdateListParams(body)) {
-        return {
-          statusCode: 403,
-          body: "Invalid parameter",
-        };
-      }
+      if (!id) return badRequest("Missing user id");
+      if (!body) return badRequest("Please specify a body");
+      if (!checkUpdateListParams(body)) return badRequest("Invalid parameter");
 
       const list = await this.updateListRepository.updateList(id, body);
-
-      return {
-        statusCode: 200,
-        body: list,
-      };
+      return ok(list);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong",
-      };
+      return serverError();
     }
   }
 }
