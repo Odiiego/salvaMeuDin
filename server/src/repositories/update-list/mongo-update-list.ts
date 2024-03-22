@@ -5,6 +5,7 @@ import {
 } from "../../controllers/update-list/protocols";
 import { MongoClient } from "../../database/mongo";
 import { IList } from "../../models/list";
+import { MongoList } from "../mongo-protocols";
 
 export class MongoUpdateListRepository implements IUpdateListRepository {
   async updateList(id: string, params: IUpdateListParams): Promise<IList> {
@@ -13,7 +14,7 @@ export class MongoUpdateListRepository implements IUpdateListRepository {
       .updateOne({ _id: new ObjectId(id) }, { $set: { ...params } });
 
     const list = await MongoClient.db
-      .collection<Omit<IList, "id">>("lists")
+      .collection<MongoList>("lists")
       .findOne({ _id: new ObjectId(id) });
 
     if (!list) {

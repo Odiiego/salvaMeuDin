@@ -2,11 +2,12 @@ import { ObjectId } from "mongodb";
 import { IDeleteListRepository } from "../../controllers/delete-list/protocols";
 import { IList } from "../../models/list";
 import { MongoClient } from "../../database/mongo";
+import { MongoList } from "../mongo-protocols";
 
 export class MongoDeleteListRepository implements IDeleteListRepository {
   async deleteList(id: string): Promise<IList> {
     const list = await MongoClient.db
-      .collection<Omit<IList, "id">>("lists")
+      .collection<MongoList>("lists")
       .findOne({ _id: new ObjectId(id) });
 
     if (!list) {

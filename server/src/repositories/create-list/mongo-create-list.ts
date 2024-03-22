@@ -4,6 +4,7 @@ import {
 } from "../../controllers/create-list/protocols";
 import { MongoClient } from "../../database/mongo";
 import { IList } from "../../models/list";
+import { MongoList } from "../mongo-protocols";
 
 export class MongoCreateListRepository implements ICreatListRepository {
   async createList(params: ICreateListParams): Promise<IList> {
@@ -12,7 +13,7 @@ export class MongoCreateListRepository implements ICreatListRepository {
       .insertOne(params);
 
     const list = await MongoClient.db
-      .collection<Omit<IList, "id">>("lists")
+      .collection<MongoList>("lists")
       .findOne({ _id: insertedId });
 
     if (!list) {
