@@ -7,6 +7,8 @@ import { MongoCreateListRepository } from "./repositories/create-list/mongo-crea
 import { CreateListController } from "./controllers/create-list/create-list";
 import { MongoUpdateListRepository } from "./repositories/update-list/mongo-update-list";
 import { UpdateListController } from "./controllers/update-list/update-list";
+import { MongoDeleteListRepository } from "./repositories/delete-list/mongo-delete-list";
+import { DeleteListController } from "./controllers/delete-list/delete-list";
 
 const main = async () => {
   config();
@@ -43,6 +45,20 @@ const main = async () => {
     );
 
     const { body, statusCode } = await updateListController.handle({
+      body: req.body,
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.delete("/lists/:id", async (req, res) => {
+    const mongoDeleteListRepository = new MongoDeleteListRepository();
+    const deleteListController = new DeleteListController(
+      mongoDeleteListRepository,
+    );
+
+    const { body, statusCode } = await deleteListController.handle({
       body: req.body,
       params: req.params,
     });
