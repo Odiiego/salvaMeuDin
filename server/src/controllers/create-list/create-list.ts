@@ -1,27 +1,23 @@
 import { IList } from "../../models/list";
 import checkCreateListParams from "../../utils/checkCreateListParams";
-import { HttpRequest, HttpResponse } from "../protocols";
-import {
-  ICreatListRepository,
-  ICreateListController,
-  ICreateListParams,
-} from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { ICreatListRepository, ICreateListParams } from "./protocols";
 
-export class CreateListController implements ICreateListController {
+export class CreateListController implements IController {
   constructor(private readonly createListRepository: ICreatListRepository) {}
 
   async handle(
-    HttpRequest: HttpRequest<ICreateListParams>,
+    httpRequest: HttpRequest<ICreateListParams>,
   ): Promise<HttpResponse<IList>> {
     try {
-      if (!HttpRequest.body) {
+      if (!httpRequest.body) {
         return {
           statusCode: 400,
           body: "Please specify a body",
         };
       }
 
-      if (!checkCreateListParams(HttpRequest.body)) {
+      if (!checkCreateListParams(httpRequest.body)) {
         return {
           statusCode: 403,
           body: "Invalid parameter",
@@ -29,7 +25,7 @@ export class CreateListController implements ICreateListController {
       }
 
       const list = await this.createListRepository.createList({
-        ...HttpRequest.body,
+        ...httpRequest.body,
         content: [],
       });
 

@@ -1,13 +1,13 @@
 import { IList } from "../../models/list";
-import { HttpRequest, HttpResponse } from "../protocols";
-import { IDeleteListController, IDeleteListRepository } from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { IDeleteListRepository } from "./protocols";
 
-export class DeleteListController implements IDeleteListController {
+export class DeleteListController implements IController {
   constructor(private readonly deleteListRepository: IDeleteListRepository) {}
 
-  async handle(HttpRequest: HttpRequest<string>): Promise<HttpResponse<IList>> {
+  async handle(httpRequest: HttpRequest<string>): Promise<HttpResponse<IList>> {
     try {
-      const id = HttpRequest?.params?.id;
+      const id = httpRequest?.params?.id;
 
       if (!id) {
         return {

@@ -1,20 +1,16 @@
 import { IList } from "../../models/list";
 import checkUpdateListParams from "../../utils/checkUpdateListParams";
-import { HttpRequest, HttpResponse } from "../protocols";
-import {
-  IUpdateListController,
-  IUpdateListParams,
-  IUpdateListRepository,
-} from "./protocols";
+import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { IUpdateListParams, IUpdateListRepository } from "./protocols";
 
-export class UpdateListController implements IUpdateListController {
+export class UpdateListController implements IController {
   constructor(private readonly updateListRepository: IUpdateListRepository) {}
   async handle(
-    HttpRequest: HttpRequest<IUpdateListParams>,
+    httpRequest: HttpRequest<IUpdateListParams>,
   ): Promise<HttpResponse<IList>> {
     try {
-      const id = HttpRequest?.params?.id;
-      const body = HttpRequest?.body;
+      const id = httpRequest?.params?.id;
+      const body = httpRequest?.body;
 
       if (!body) {
         return {
