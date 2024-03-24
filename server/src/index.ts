@@ -17,10 +17,12 @@ const main = async () => {
   app.use(express.json());
   await MongoClient.connect();
 
-  app.get("/lists", async (req, res) => {
+  app.get("/lists/:id?", async (req, res) => {
     const mongoGetListsRepository = new MongoGetListsRepository();
     const getListsController = new GetListsController(mongoGetListsRepository);
-    const { body, statusCode } = await getListsController.handle();
+    const { body, statusCode } = await getListsController.handle({
+      params: req.params,
+    });
 
     res.status(statusCode).send(body);
   });
