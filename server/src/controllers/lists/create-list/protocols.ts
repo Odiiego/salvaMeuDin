@@ -1,5 +1,5 @@
-import { IList } from "../../models/list";
-import { IProduct } from "../../models/product";
+import { IList } from "../../../models/list";
+import { IProduct } from "../../../models/product";
 
 export interface ICreateListParams {
   name: string;

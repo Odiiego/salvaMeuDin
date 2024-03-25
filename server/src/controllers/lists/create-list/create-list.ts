@@ -1,10 +1,10 @@
-import { IList } from "../../models/list";
+import { IList } from "../../../models/list";
 import {
   badRequest,
   checkCreateListParams,
   created,
   serverError,
-} from "../helpers";
+} from "../../helpers";
 import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { ICreatListRepository, ICreateListParams } from "./protocols";
 

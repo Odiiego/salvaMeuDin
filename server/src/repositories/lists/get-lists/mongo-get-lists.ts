@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
-import { IGetListsRepository } from "../../controllers/get-lists/protocols";
-import { MongoClient } from "../../database/mongo";
-import { IList } from "../../models/list";
-import { MongoList } from "../mongo-protocols";
+import { MongoClient } from "../../../database/mongo";
+import { MongoList } from "../../mongo-protocols";
+import { IGetListsRepository } from "../../../controllers/lists/get-lists/protocols";
+import { IList } from "../../../models/list";
 
 export class MongoGetListsRepository implements IGetListsRepository {
   async getLists(): Promise<IList[]> {

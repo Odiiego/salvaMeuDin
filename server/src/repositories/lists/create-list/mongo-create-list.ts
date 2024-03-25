@@ -1,10 +1,10 @@
 import {
   ICreatListRepository,
   ICreateListParams,
-} from "../../controllers/create-list/protocols";
-import { MongoClient } from "../../database/mongo";
-import { IList } from "../../models/list";
-import { MongoList } from "../mongo-protocols";
+} from "../../../controllers/lists/create-list/protocols";
+import { MongoClient } from "../../../database/mongo";
+import { IList } from "../../../models/list";
+import { MongoList } from "../../mongo-protocols";
 
 export class MongoCreateListRepository implements ICreatListRepository {
   async createList(params: ICreateListParams): Promise<IList> {

@@ -1,14 +1,14 @@
 import express from "express";
 import { config } from "dotenv";
-import { GetListsController } from "./controllers/get-lists/get-lists";
-import { MongoGetListsRepository } from "./repositories/get-lists/mongo-get-lists";
+import { GetListsController } from "./controllers/lists/get-lists/get-lists";
+import { MongoGetListsRepository } from "./repositories/lists/get-lists/mongo-get-lists";
 import { MongoClient } from "./database/mongo";
-import { MongoCreateListRepository } from "./repositories/create-list/mongo-create-list";
-import { CreateListController } from "./controllers/create-list/create-list";
-import { MongoUpdateListRepository } from "./repositories/update-list/mongo-update-list";
-import { UpdateListController } from "./controllers/update-list/update-list";
-import { MongoDeleteListRepository } from "./repositories/delete-list/mongo-delete-list";
-import { DeleteListController } from "./controllers/delete-list/delete-list";
+import { MongoCreateListRepository } from "./repositories/lists/create-list/mongo-create-list";
+import { CreateListController } from "./controllers/lists/create-list/create-list";
+import { MongoUpdateListRepository } from "./repositories/lists/update-list/mongo-update-list";
+import { UpdateListController } from "./controllers/lists/update-list/update-list";
+import { MongoDeleteListRepository } from "./repositories/lists/delete-list/mongo-delete-list";
+import { DeleteListController } from "./controllers/lists/delete-list/delete-list";
 
 const main = async () => {
   config();

@@ -2,10 +2,10 @@ import { ObjectId } from "mongodb";
 import {
   IUpdateListParams,
   IUpdateListRepository,
-} from "../../controllers/update-list/protocols";
-import { MongoClient } from "../../database/mongo";
-import { IList } from "../../models/list";
-import { MongoList } from "../mongo-protocols";
+} from "../../../controllers/lists/update-list/protocols";
+import { IList } from "../../../models/list";
+import { MongoClient } from "../../../database/mongo";
+import { MongoList } from "../../mongo-protocols";
 
 export class MongoUpdateListRepository implements IUpdateListRepository {
   async updateList(id: string, params: IUpdateListParams): Promise<IList> {

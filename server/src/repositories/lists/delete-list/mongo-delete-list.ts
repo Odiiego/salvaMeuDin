@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
-import { IDeleteListRepository } from "../../controllers/delete-list/protocols";
-import { IList } from "../../models/list";
-import { MongoClient } from "../../database/mongo";
-import { MongoList } from "../mongo-protocols";
+import { IDeleteListRepository } from "../../../controllers/lists/delete-list/protocols";
+import { IList } from "../../../models/list";
+import { MongoList } from "../../mongo-protocols";
+import { MongoClient } from "../../../database/mongo";
 
 export class MongoDeleteListRepository implements IDeleteListRepository {
   async deleteList(id: string): Promise<IList> {

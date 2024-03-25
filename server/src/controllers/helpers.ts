@@ -1,6 +1,6 @@
-import { ICreateListParams } from "./create-list/protocols";
-import { HttpResponse } from "./protocols";
-import { IUpdateListParams } from "./update-list/protocols";
+import { ICreateListParams } from "./lists/create-list/protocols";
+import { HttpResponse } from "./lists/protocols";
+import { IUpdateListParams } from "./lists/update-list/protocols";
 
 export const ok = <T>(body: T): HttpResponse<T> => ({
   statusCode: 200,

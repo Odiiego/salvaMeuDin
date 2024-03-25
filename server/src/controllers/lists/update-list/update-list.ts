@@ -1,5 +1,10 @@
-import { IList } from "../../models/list";
-import { badRequest, checkUpdateListParams, ok, serverError } from "../helpers";
+import { IList } from "../../../models/list";
+import {
+  badRequest,
+  checkUpdateListParams,
+  ok,
+  serverError,
+} from "../../helpers";
 import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { IUpdateListParams, IUpdateListRepository } from "./protocols";
 

@@ -1,5 +1,5 @@
-import { IList } from "../../models/list";
-import { ok, serverError } from "../helpers";
+import { IList } from "../../../models/list";
+import { ok, serverError } from "../../helpers";
 import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { IGetListsRepository } from "./protocols";
 
