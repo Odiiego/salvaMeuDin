@@ -5,7 +5,7 @@ import {
   created,
   serverError,
 } from "../../helpers";
-import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { HttpRequest, HttpResponse, IController } from "../../protocols";
 import { ICreatListRepository, ICreateListParams } from "./protocols";
 
 export class CreateListController implements IController {

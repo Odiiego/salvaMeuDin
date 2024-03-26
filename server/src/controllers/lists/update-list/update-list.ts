@@ -5,7 +5,7 @@ import {
   ok,
   serverError,
 } from "../../helpers";
-import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { HttpRequest, HttpResponse, IController } from "../../protocols";
 import { IUpdateListParams, IUpdateListRepository } from "./protocols";
 
 export class UpdateListController implements IController {

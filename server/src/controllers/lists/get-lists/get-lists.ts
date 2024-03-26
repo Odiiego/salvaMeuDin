@@ -1,6 +1,6 @@
 import { IList } from "../../../models/list";
 import { ok, serverError } from "../../helpers";
-import { HttpRequest, HttpResponse, IController } from "../protocols";
+import { HttpRequest, HttpResponse, IController } from "../../protocols";
 import { IGetListsRepository } from "./protocols";
 
 export class GetListsController implements IController {

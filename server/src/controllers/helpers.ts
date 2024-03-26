@@ -1,6 +1,7 @@
 import { ICreateListParams } from "./lists/create-list/protocols";
-import { HttpResponse } from "./lists/protocols";
+import { HttpResponse } from "./protocols";
 import { IUpdateListParams } from "./lists/update-list/protocols";
+import { ICreateProductParams } from "./products/create-product/protocols";
 
 export const ok = <T>(body: T): HttpResponse<T> => ({
   statusCode: 200,
@@ -27,6 +28,17 @@ export const checkCreateListParams = (
 ): list is ICreateListParams => {
   const { name, description, ...rest } = list;
   if (name && description && Object.keys(rest).length === 0) {
+    return true;
+  }
+  return false;
+};
+
+export const checkCreateProductParams = (
+  product: ICreateProductParams,
+): product is ICreateProductParams => {
+  const { quantity, name, price, ...rest } = product;
+
+  if (quantity && name && price && Object.keys(rest).length === 0) {
     return true;
   }
   return false;

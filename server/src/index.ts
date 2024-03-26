@@ -9,6 +9,8 @@ import { MongoUpdateListRepository } from "./repositories/lists/update-list/mong
 import { UpdateListController } from "./controllers/lists/update-list/update-list";
 import { MongoDeleteListRepository } from "./repositories/lists/delete-list/mongo-delete-list";
 import { DeleteListController } from "./controllers/lists/delete-list/delete-list";
+import { MongoCreateProductRepository } from "./repositories/products/create-product/mongo-create-product";
+import { CreateProductController } from "./controllers/products/create-product/create-product";
 
 const main = async () => {
   config();
@@ -61,6 +63,20 @@ const main = async () => {
     );
 
     const { body, statusCode } = await deleteListController.handle({
+      body: req.body,
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.post("/lists/:id/product", async (req, res) => {
+    const mongoCreateProductRepository = new MongoCreateProductRepository();
+    const createProductController = new CreateProductController(
+      mongoCreateProductRepository,
+    );
+
+    const { body, statusCode } = await createProductController.handle({
       body: req.body,
       params: req.params,
     });
