@@ -36,9 +36,9 @@ export const checkCreateListParams = (
 export const checkCreateProductParams = (
   product: ICreateProductParams,
 ): product is ICreateProductParams => {
-  const { quantity, name, price, ...rest } = product;
+  const { quantity, name, ...rest } = product;
 
-  if (quantity && name && price && Object.keys(rest).length === 0) {
+  if (quantity && name && Object.keys(rest).length === 0) {
     return true;
   }
   return false;

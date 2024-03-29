@@ -5,7 +5,7 @@ export interface HttpResponse<T> {
 
 export interface HttpRequest<B> {
   header?: string;
-  params?: { id?: string };
+  params?: { id?: string; listId?: string; productId?: string };
   body?: B;
 }
 
