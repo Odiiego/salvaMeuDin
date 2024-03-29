@@ -2,6 +2,7 @@ import { ICreateListParams } from "./lists/create-list/protocols";
 import { HttpResponse } from "./protocols";
 import { IUpdateListParams } from "./lists/update-list/protocols";
 import { ICreateProductParams } from "./products/create-product/protocols";
+import { IUpdateProductParams } from "./products/update-product/protocols";
 
 export const ok = <T>(body: T): HttpResponse<T> => ({
   statusCode: 200,
@@ -49,6 +50,16 @@ export const checkUpdateListParams = (
 ): list is IUpdateListParams => {
   const { name, description, content, ...rest } = list;
   if ((name || description || content) && Object.keys(rest).length === 0) {
+    return true;
+  }
+  return false;
+};
+
+export const checkUpdateProductParams = (
+  product: IUpdateProductParams,
+): product is IUpdateProductParams => {
+  const { name, quantity, ...rest } = product;
+  if ((name || quantity) && Object.keys(rest).length === 0) {
     return true;
   }
   return false;

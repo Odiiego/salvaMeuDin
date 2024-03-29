@@ -1,5 +1,10 @@
 import { IList } from "../../../models/list";
-import { badRequest, ok, serverError } from "../../helpers";
+import {
+  badRequest,
+  checkUpdateProductParams,
+  ok,
+  serverError,
+} from "../../helpers";
 import { HttpRequest, HttpResponse, IController } from "../../protocols";
 import { IUpdateProductParams, IUpdateProductRepository } from "./protocols";
 
@@ -19,6 +24,9 @@ export class UpdateProductController implements IController {
       if (!listId) return badRequest("Missing list id");
       if (!productId) return badRequest("Missing product id");
       if (!body) return badRequest("Please specify a body");
+
+      if (!checkUpdateProductParams(body))
+        return badRequest("Invalid parameter");
 
       const list = await this.updateProductRepository.updateProduct(
         listId,
