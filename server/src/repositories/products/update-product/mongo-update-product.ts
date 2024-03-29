@@ -13,25 +13,28 @@ export class MongoUpdateProductRepository implements IUpdateProductRepository {
     productId: string,
     params: IUpdateProductParams,
   ): Promise<IList> {
-    const query =
-      params.name && params.quantity
-        ? {
-            "content.$.name": params.name,
-            "content.$.quantity": params.quantity,
-          }
-        : params.name
-          ? {
-              "content.$.name": params.name,
-            }
-          : {
-              "content.$.quantity": params.quantity,
-            };
+    const [data] = await MongoClient.db
+      .collection("lists")
+      .aggregate([
+        {
+          $match: {
+            "content.id": new ObjectId(productId),
+          },
+        },
+        { $unwind: "$content" },
+        {
+          $match: {
+            "content.id": new ObjectId(productId),
+          },
+        },
+      ])
+      .toArray();
 
     await MongoClient.db
       .collection("lists")
       .updateOne(
         { "content.id": new ObjectId(productId) },
-        { $set: { ...query } },
+        { $set: { "content.$": { ...data.content, ...params } } },
       );
 
     const list = await MongoClient.db
