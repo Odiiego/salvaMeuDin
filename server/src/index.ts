@@ -15,6 +15,8 @@ import { MongoUpdateProductRepository } from "./repositories/products/update-pro
 import { UpdateProductController } from "./controllers/products/update-product/update-product";
 import { MongoDeleteProductRepository } from "./repositories/products/delete-product/mongo-delete-product";
 import { DeleteProductController } from "./controllers/products/delete-product/delete-product";
+import { MongoCreateBrandRepository } from "./repositories/brands/create-brand/mongo-create-brand";
+import { CreateBrandController } from "./controllers/brands/create-brand/create-brand";
 
 const main = async () => {
   config();
@@ -109,6 +111,20 @@ const main = async () => {
     );
 
     const { body, statusCode } = await deleteProductController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.post("/lists/product/:id", async (req, res) => {
+    const mongoCreateBrandRepository = new MongoCreateBrandRepository();
+    const createBrandController = new CreateBrandController(
+      mongoCreateBrandRepository,
+    );
+
+    const { body, statusCode } = await createBrandController.handle({
+      body: req.body,
       params: req.params,
     });
 
