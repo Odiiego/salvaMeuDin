@@ -4,6 +4,7 @@ import { IUpdateListParams } from "./lists/update-list/protocols";
 import { ICreateProductParams } from "./products/create-product/protocols";
 import { IUpdateProductParams } from "./products/update-product/protocols";
 import { ICreateBrandParams } from "./brands/create-brand/protocols";
+import { IUpdateBrandParams } from "./brands/update-brand/protocols";
 
 export const ok = <T>(body: T): HttpResponse<T> => ({
   statusCode: 200,
@@ -72,6 +73,16 @@ export const checkCreateBrandParams = (
   const { quantity, name, price, ...rest } = brand;
 
   if (quantity && name && price && Object.keys(rest).length === 0) {
+    return true;
+  }
+  return false;
+};
+
+export const checkUpdateBrandParams = (
+  brand: IUpdateBrandParams,
+): brand is IUpdateBrandParams => {
+  const { name, quantity, price, ...rest } = brand;
+  if ((name || quantity || price) && Object.keys(rest).length === 0) {
     return true;
   }
   return false;

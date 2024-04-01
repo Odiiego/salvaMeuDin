@@ -17,6 +17,8 @@ import { MongoDeleteProductRepository } from "./repositories/products/delete-pro
 import { DeleteProductController } from "./controllers/products/delete-product/delete-product";
 import { MongoCreateBrandRepository } from "./repositories/brands/create-brand/mongo-create-brand";
 import { CreateBrandController } from "./controllers/brands/create-brand/create-brand";
+import { MongoUpdateBrandRepository } from "./repositories/brands/update-brand/mongo-update-brand";
+import { UpdateBrandController } from "./controllers/brands/update-brand/update-brand";
 
 const main = async () => {
   config();
@@ -133,6 +135,20 @@ const main = async () => {
 
   const port = process.env.PORT || 8000;
   app.listen(port, () => console.log(`listening on port ${port}`));
+
+  app.put("/lists/product/:productId/brand/:brandId", async (req, res) => {
+    const mongoUpdateBrandRepository = new MongoUpdateBrandRepository();
+    const updateBrandController = new UpdateBrandController(
+      mongoUpdateBrandRepository,
+    );
+
+    const { body, statusCode } = await updateBrandController.handle({
+      body: req.body,
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
 };
 
 main();
