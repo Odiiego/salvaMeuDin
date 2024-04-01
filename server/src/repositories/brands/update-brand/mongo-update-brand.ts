@@ -33,8 +33,11 @@ export class MongoUpdateBrandRepository implements IUpdateBrandRepository {
     await MongoClient.db.collection("lists").updateOne(
       { "content.brands.id": new ObjectId(brandId) },
       {
-        $set: { "content.$[].brands.$": { ...data.content.brands, ...params } },
+        $set: {
+          "content.$.brands.$[x]": { ...data.content.brands, ...params },
+        },
       },
+      { arrayFilters: [{ "x.id": new ObjectId(brandId) }] },
     );
 
     const [newData] = await MongoClient.db
