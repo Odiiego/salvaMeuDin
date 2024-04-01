@@ -19,6 +19,8 @@ import { MongoCreateBrandRepository } from "./repositories/brands/create-brand/m
 import { CreateBrandController } from "./controllers/brands/create-brand/create-brand";
 import { MongoUpdateBrandRepository } from "./repositories/brands/update-brand/mongo-update-brand";
 import { UpdateBrandController } from "./controllers/brands/update-brand/update-brand";
+import { MongoDeleteBrandRepository } from "./repositories/brands/delete-brand/mongo-delete-brand";
+import { DeleteBrandController } from "./controllers/brands/delete-brand/delete-brand";
 
 const main = async () => {
   config();
@@ -133,9 +135,6 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  const port = process.env.PORT || 8000;
-  app.listen(port, () => console.log(`listening on port ${port}`));
-
   app.put("/lists/product/:productId/brand/:brandId", async (req, res) => {
     const mongoUpdateBrandRepository = new MongoUpdateBrandRepository();
     const updateBrandController = new UpdateBrandController(
@@ -149,6 +148,22 @@ const main = async () => {
 
     res.status(statusCode).send(body);
   });
+
+  app.delete("/brand/:id", async (req, res) => {
+    const mongoDeleteBrandRepository = new MongoDeleteBrandRepository();
+    const deleteBrandController = new DeleteBrandController(
+      mongoDeleteBrandRepository,
+    );
+
+    const { body, statusCode } = await deleteBrandController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  const port = process.env.PORT || 8000;
+  app.listen(port, () => console.log(`listening on port ${port}`));
 };
 
 main();
