@@ -12,9 +12,9 @@ export class DeleteProductController implements IController {
     httpRequest: HttpRequest<unknown>,
   ): Promise<HttpResponse<IProduct | string>> {
     try {
-      const id = httpRequest?.params?.productId;
+      const id = httpRequest?.params?.id;
 
-      if (!id) return badRequest("Missing list id");
+      if (!id) return badRequest("Please specify an id");
 
       const product = await this.deleteProductRepository.deleteProduct(id);
 

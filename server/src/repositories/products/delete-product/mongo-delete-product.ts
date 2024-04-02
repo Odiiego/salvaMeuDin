@@ -2,35 +2,21 @@ import { ObjectId } from "mongodb";
 import { IDeleteProductRepository } from "../../../controllers/products/delete-product/protocols";
 import { MongoClient } from "../../../database/mongo";
 import { IProduct } from "../../../models/product";
+import { fetchMongoProduct } from "../helpers";
 
 export class MongoDeleteProductRepository implements IDeleteProductRepository {
-  async deleteProduct(productId: string): Promise<IProduct> {
-    const [data] = await MongoClient.db
-      .collection("lists")
-      .aggregate([
-        {
-          $match: {
-            "content.id": new ObjectId(productId),
-          },
-        },
-        { $unwind: "$content" },
-        {
-          $match: {
-            "content.id": new ObjectId(productId),
-          },
-        },
-      ])
-      .toArray();
+  async deleteProduct(id: string): Promise<IProduct> {
+    const product = await fetchMongoProduct(id);
 
     await MongoClient.db.collection("lists").findOneAndUpdate(
-      { "content.id": new ObjectId(productId) },
+      { "content.id": new ObjectId(id) },
       {
         $pull: {
-          content: data.content,
+          content: product,
         },
       },
     );
 
-    return data.content;
+    return product;
   }
 }
