@@ -1,5 +1,5 @@
 import { IBrand } from "../../../models/brand";
-import { IList } from "../../../models/list";
+import { IProduct } from "../../../models/product";
 
 export interface ICreateProductParams {
   quantity: number;
@@ -14,5 +14,5 @@ export interface ICreateProductRepository {
   createProduct(
     id: string,
     params: ICreateProductParams & IBrandsParam,
-  ): Promise<IList>;
+  ): Promise<IProduct>;
 }

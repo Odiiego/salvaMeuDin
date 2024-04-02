@@ -5,32 +5,26 @@ import {
   ICreateProductRepository,
 } from "../../../controllers/products/create-product/protocols";
 import { MongoClient } from "../../../database/mongo";
-import { IList } from "../../../models/list";
-import { MongoList } from "../../mongo-protocols";
+import { IProduct } from "../../../models/product";
+import { fetchMongoProduct } from "../helpers";
 
 export class MongoCreateProductRepository implements ICreateProductRepository {
   async createProduct(
     id: string,
     params: ICreateProductParams & IBrandsParam,
-  ): Promise<IList> {
+  ): Promise<IProduct> {
+    const newProduct = { id: new ObjectId(), ...params };
+
     await MongoClient.db.collection("lists").findOneAndUpdate(
       { _id: new ObjectId(id) },
       {
         $push: {
-          content: { id: new ObjectId(), ...params },
+          content: newProduct,
         } as unknown as PushOperator<Document>,
       },
     );
 
-    const list = await MongoClient.db
-      .collection<MongoList>("lists")
-      .findOne({ _id: new ObjectId(id) });
-
-    if (!list) {
-      throw new Error("List not updated");
-    }
-
-    const { _id, ...rest } = list;
-    return { id: _id.toHexString(), ...rest };
+    const product = await fetchMongoProduct(newProduct.id.toHexString());
+    return product;
   }
 }

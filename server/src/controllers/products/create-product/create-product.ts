@@ -1,4 +1,4 @@
-import { IList } from "../../../models/list";
+import { IProduct } from "../../../models/product";
 import {
   badRequest,
   checkCreateProductParams,
@@ -15,23 +15,22 @@ export class CreateProductController implements IController {
 
   async handle(
     httpRequest: HttpRequest<ICreateProductParams>,
-  ): Promise<HttpResponse<IList | string>> {
+  ): Promise<HttpResponse<IProduct | string>> {
     try {
       const id = httpRequest?.params?.id;
       const body = httpRequest?.body;
 
-      if (!id) return badRequest("Missing list id");
+      if (!id) return badRequest("Please specify an id");
       if (!body) return badRequest("Please specify a body");
-
       if (!checkCreateProductParams(body))
-        return badRequest("Invalid parameter");
+        return badRequest("One or more of the parameters is invalid");
 
-      const list = await this.createProductRepository.createProduct(id, {
+      const product = await this.createProductRepository.createProduct(id, {
         ...body,
         brands: [],
       });
 
-      return ok<IList>(list);
+      return ok<IProduct>(product);
     } catch (error) {
       return serverError();
     }
