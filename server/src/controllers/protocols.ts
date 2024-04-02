@@ -7,9 +7,6 @@ export interface HttpRequest<B> {
   header?: string;
   params?: {
     id?: string;
-    listId?: string;
-    productId?: string;
-    brandId?: string;
   };
   body?: B;
 }

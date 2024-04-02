@@ -29,7 +29,7 @@ const main = async () => {
   app.use(express.json());
   await MongoClient.connect();
 
-  app.get("/lists/:id?", async (req, res) => {
+  app.get("/list/:id?", async (req, res) => {
     const mongoGetListsRepository = new MongoGetListsRepository();
     const getListsController = new GetListsController(mongoGetListsRepository);
     const { body, statusCode } = await getListsController.handle({
@@ -39,7 +39,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.post("/lists", async (req, res) => {
+  app.post("/list", async (req, res) => {
     const mongoCreateListRepository = new MongoCreateListRepository();
     const createListController = new CreateListController(
       mongoCreateListRepository,
@@ -52,7 +52,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.put("/lists/:id", async (req, res) => {
+  app.put("/list/:id", async (req, res) => {
     const mongoUpdateListRepository = new MongoUpdateListRepository();
     const updateListController = new UpdateListController(
       mongoUpdateListRepository,
@@ -66,7 +66,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.delete("/lists/:id", async (req, res) => {
+  app.delete("/list/:id", async (req, res) => {
     const mongoDeleteListRepository = new MongoDeleteListRepository();
     const deleteListController = new DeleteListController(
       mongoDeleteListRepository,
@@ -80,7 +80,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.post("/lists/:id/product", async (req, res) => {
+  app.post("/product/:id", async (req, res) => {
     const mongoCreateProductRepository = new MongoCreateProductRepository();
     const createProductController = new CreateProductController(
       mongoCreateProductRepository,
@@ -94,7 +94,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.put("/lists/:listId/product/:productId", async (req, res) => {
+  app.put("/product/:id", async (req, res) => {
     const mongoUpdateProductRepository = new MongoUpdateProductRepository();
     const updateProductController = new UpdateProductController(
       mongoUpdateProductRepository,
@@ -108,7 +108,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.delete("/lists/:ListId/product/:productId", async (req, res) => {
+  app.delete("/product/:id", async (req, res) => {
     const mongoDeleteProductRepository = new MongoDeleteProductRepository();
     const deleteProductController = new DeleteProductController(
       mongoDeleteProductRepository,
@@ -121,7 +121,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.post("/lists/product/:id", async (req, res) => {
+  app.post("/brand/:id", async (req, res) => {
     const mongoCreateBrandRepository = new MongoCreateBrandRepository();
     const createBrandController = new CreateBrandController(
       mongoCreateBrandRepository,
@@ -135,7 +135,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.put("/lists/product/:productId/brand/:brandId", async (req, res) => {
+  app.put("/brand/:id", async (req, res) => {
     const mongoUpdateBrandRepository = new MongoUpdateBrandRepository();
     const updateBrandController = new UpdateBrandController(
       mongoUpdateBrandRepository,
