@@ -15,25 +15,18 @@ export class UpdateBrandController implements IController {
     httpRequest: HttpRequest<IUpdateBrandParams>,
   ): Promise<HttpResponse<IBrand | string>> {
     try {
-      const productId = httpRequest.params?.productId;
-      const brandId = httpRequest.params?.brandId;
-      const body = httpRequest.body;
+      const id = httpRequest?.params?.id;
+      const body = httpRequest?.body;
 
-      if (!productId) return badRequest("Missing product id");
-      if (!brandId) return badRequest("Missing brand id");
-      if (!body) return badRequest("Missing parameters");
+      if (!id) return badRequest("Please specify an id");
+      if (!body) return badRequest("Please specify a body");
+      if (!checkUpdateBrandParams(body))
+        return badRequest("One or more of the parameters is invalid");
 
-      if (!checkUpdateBrandParams(body)) return badRequest("Invalid parameter");
-
-      const brand = await this.updateBrandRepository.updateBrand(
-        productId,
-        brandId,
-        body,
-      );
+      const brand = await this.updateBrandRepository.updateBrand(id, body);
 
       return ok<IBrand>(brand);
     } catch (error) {
-      console.log(error);
       return serverError();
     }
   }

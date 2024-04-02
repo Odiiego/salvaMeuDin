@@ -7,9 +7,5 @@ export interface IUpdateBrandParams {
 }
 
 export interface IUpdateBrandRepository {
-  updateBrand(
-    productId: string,
-    brandId: string,
-    params: IUpdateBrandParams,
-  ): Promise<IBrand>;
+  updateBrand(id: string, params: IUpdateBrandParams): Promise<IBrand>;
 }
