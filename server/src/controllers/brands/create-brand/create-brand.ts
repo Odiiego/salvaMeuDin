@@ -18,10 +18,10 @@ export class CreateBrandController implements IController {
       const id = httpRequest?.params?.id;
       const body = httpRequest?.body;
 
-      if (!id) return badRequest("Missing list id");
+      if (!id) return badRequest("Please specify an id");
       if (!body) return badRequest("Please specify a body");
-
-      if (!checkCreateBrandParams(body)) return badRequest("Invalid parameter");
+      if (!checkCreateBrandParams(body))
+        return badRequest("One or more of the parameters is invalid");
 
       const brand = await this.createBrandRepository.createBrand(id, body);
 
