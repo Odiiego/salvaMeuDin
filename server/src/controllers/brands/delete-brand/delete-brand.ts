@@ -12,7 +12,7 @@ export class DeleteBrandController implements IController {
     try {
       const id = httpRequest.params?.id;
 
-      if (!id) return badRequest("Missing brand id");
+      if (!id) return badRequest("Please specify an id");
 
       const brand = await this.deleteBrandRepository.deleteBrand(id);
       return ok<IBrand>(brand);
