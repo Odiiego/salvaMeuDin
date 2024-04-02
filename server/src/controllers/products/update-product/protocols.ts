@@ -1,4 +1,4 @@
-import { IList } from "../../../models/list";
+import { IProduct } from "../../../models/product";
 
 export interface IUpdateProductParams {
   quantity: number;
@@ -6,9 +6,5 @@ export interface IUpdateProductParams {
 }
 
 export interface IUpdateProductRepository {
-  updateProduct(
-    listId: string,
-    productId: string,
-    params: IUpdateProductParams,
-  ): Promise<IList>;
+  updateProduct(id: string, params: IUpdateProductParams): Promise<IProduct>;
 }

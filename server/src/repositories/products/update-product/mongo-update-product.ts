@@ -3,49 +3,25 @@ import {
   IUpdateProductParams,
   IUpdateProductRepository,
 } from "../../../controllers/products/update-product/protocols";
-import { IList } from "../../../models/list";
-import { MongoList } from "../../mongo-protocols";
 import { MongoClient } from "../../../database/mongo";
+import { fetchMongoProduct } from "../helpers";
+import { IProduct } from "../../../models/product";
 
 export class MongoUpdateProductRepository implements IUpdateProductRepository {
   async updateProduct(
-    listId: string,
-    productId: string,
+    id: string,
     params: IUpdateProductParams,
-  ): Promise<IList> {
-    const [data] = await MongoClient.db
-      .collection("lists")
-      .aggregate([
-        {
-          $match: {
-            "content.id": new ObjectId(productId),
-          },
-        },
-        { $unwind: "$content" },
-        {
-          $match: {
-            "content.id": new ObjectId(productId),
-          },
-        },
-      ])
-      .toArray();
+  ): Promise<IProduct> {
+    const product = await fetchMongoProduct(id);
 
     await MongoClient.db
       .collection("lists")
       .updateOne(
-        { "content.id": new ObjectId(productId) },
-        { $set: { "content.$": { ...data.content, ...params } } },
+        { "content.id": new ObjectId(id) },
+        { $set: { "content.$": { ...product, ...params } } },
       );
 
-    const list = await MongoClient.db
-      .collection<MongoList>("lists")
-      .findOne({ _id: new ObjectId(listId) });
-
-    if (!list) {
-      throw new Error("List not updated");
-    }
-
-    const { _id, ...rest } = list;
-    return { id: _id.toHexString(), ...rest };
+    const updatedProduct = await fetchMongoProduct(id);
+    return updatedProduct;
   }
 }

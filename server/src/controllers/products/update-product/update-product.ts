@@ -1,4 +1,4 @@
-import { IList } from "../../../models/list";
+import { IProduct } from "../../../models/product";
 import {
   badRequest,
   checkUpdateProductParams,
@@ -15,26 +15,21 @@ export class UpdateProductController implements IController {
 
   async handle(
     httpRequest: HttpRequest<IUpdateProductParams>,
-  ): Promise<HttpResponse<IList | string>> {
+  ): Promise<HttpResponse<IProduct | string>> {
     try {
-      const listId = httpRequest?.params?.listId;
-      const productId = httpRequest?.params?.productId;
+      const id = httpRequest?.params?.id;
       const body = httpRequest?.body;
 
-      if (!listId) return badRequest("Missing list id");
-      if (!productId) return badRequest("Missing product id");
+      if (!id) return badRequest("Please specify an id");
       if (!body) return badRequest("Please specify a body");
-
       if (!checkUpdateProductParams(body))
-        return badRequest("Invalid parameter");
+        return badRequest("One or more of the parameters is invalid");
 
-      const list = await this.updateProductRepository.updateProduct(
-        listId,
-        productId,
-        { ...body },
-      );
+      const product = await this.updateProductRepository.updateProduct(id, {
+        ...body,
+      });
 
-      return ok<IList>(list);
+      return ok<IProduct>(product);
     } catch (error) {
       return serverError();
     }
