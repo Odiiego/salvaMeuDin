@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { MongoClient } from "../../database/mongo";
 
-export async function fetchMongoBrand(id: string) {
+export const fetchMongoBrand = async (id: string) => {
   const [brand] = await MongoClient.db
     .collection("lists")
     .aggregate([
@@ -21,4 +21,4 @@ export async function fetchMongoBrand(id: string) {
     .toArray();
 
   return brand.content.brands;
-}
+};
