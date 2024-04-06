@@ -12,9 +12,9 @@ const main = async () => {
   app.use(express.json());
   await MongoClient.connect();
 
-  app.use("/", listRouter);
-  app.use("/", productRouter);
-  app.use("/", brandRouter);
+  app.use("/list", listRouter);
+  app.use("/product", productRouter);
+  app.use("/brand", brandRouter);
 
   const port = process.env.PORT || 8000;
   app.listen(port, () => console.log(`listening on port ${port}`));

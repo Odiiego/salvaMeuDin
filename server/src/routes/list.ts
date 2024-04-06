@@ -10,7 +10,7 @@ import { DeleteListController } from "../controllers/lists/delete-list/delete-li
 
 export const router = express.Router();
 
-router.get("/list/:id?", async (req, res) => {
+router.get("/:id?", async (req, res) => {
   const mongoGetListsRepository = new MongoGetListsRepository();
   const getListsController = new GetListsController(mongoGetListsRepository);
   const { body, statusCode } = await getListsController.handle({
@@ -20,7 +20,7 @@ router.get("/list/:id?", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.post("/list", async (req, res) => {
+router.post("/", async (req, res) => {
   const mongoCreateListRepository = new MongoCreateListRepository();
   const createListController = new CreateListController(
     mongoCreateListRepository,
@@ -33,7 +33,7 @@ router.post("/list", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.put("/list/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const mongoUpdateListRepository = new MongoUpdateListRepository();
   const updateListController = new UpdateListController(
     mongoUpdateListRepository,
@@ -47,7 +47,7 @@ router.put("/list/:id", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.delete("/list/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const mongoDeleteListRepository = new MongoDeleteListRepository();
   const deleteListController = new DeleteListController(
     mongoDeleteListRepository,

@@ -8,7 +8,7 @@ import { DeleteBrandController } from "../controllers/brands/delete-brand/delete
 
 export const router = express.Router();
 
-router.post("/brand/:id", async (req, res) => {
+router.post("/:id", async (req, res) => {
   const mongoCreateBrandRepository = new MongoCreateBrandRepository();
   const createBrandController = new CreateBrandController(
     mongoCreateBrandRepository,
@@ -22,7 +22,7 @@ router.post("/brand/:id", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.put("/brand/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const mongoUpdateBrandRepository = new MongoUpdateBrandRepository();
   const updateBrandController = new UpdateBrandController(
     mongoUpdateBrandRepository,
@@ -36,7 +36,7 @@ router.put("/brand/:id", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.delete("/brand/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const mongoDeleteBrandRepository = new MongoDeleteBrandRepository();
   const deleteBrandController = new DeleteBrandController(
     mongoDeleteBrandRepository,

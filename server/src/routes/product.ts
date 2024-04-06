@@ -8,7 +8,7 @@ import { DeleteProductController } from "../controllers/products/delete-product/
 
 export const router = express.Router();
 
-router.post("/product/:id", async (req, res) => {
+router.post("/:id", async (req, res) => {
   const mongoCreateProductRepository = new MongoCreateProductRepository();
   const createProductController = new CreateProductController(
     mongoCreateProductRepository,
@@ -22,7 +22,7 @@ router.post("/product/:id", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.put("/product/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const mongoUpdateProductRepository = new MongoUpdateProductRepository();
   const updateProductController = new UpdateProductController(
     mongoUpdateProductRepository,
@@ -36,7 +36,7 @@ router.put("/product/:id", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-router.delete("/product/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const mongoDeleteProductRepository = new MongoDeleteProductRepository();
   const deleteProductController = new DeleteProductController(
     mongoDeleteProductRepository,
