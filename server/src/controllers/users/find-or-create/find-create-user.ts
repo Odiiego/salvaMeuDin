@@ -2,11 +2,11 @@ import { Profile } from "passport-google-oauth20";
 import { IUser } from "../../../models/user";
 import { badRequest, ok, serverError } from "../../helpers";
 import { HttpResponse } from "../../protocols";
-import { IFindCreateUserRepository, IGoogleOauthUser } from "./protocols";
+import { IFindCreateUserRepository } from "./protocols";
 
 declare module "express-serve-static-core" {
   interface Request {
-    user: IGoogleOauthUser;
+    user: { statusCode: number; body: IUser };
   }
 }
 
@@ -15,7 +15,7 @@ export class FindOrCreateUserController {
     private readonly findOrCreateUserRepository: IFindCreateUserRepository,
   ) {}
 
-  async handle(data: Profile): Promise<HttpResponse<unknown>> {
+  async handle(data: Profile): Promise<HttpResponse<IUser | string>> {
     try {
       const { id, displayName, emails } = data;
 
@@ -26,7 +26,6 @@ export class FindOrCreateUserController {
         googleId: id,
         name: displayName,
         email: emails[0].value,
-        lists: [],
       };
 
       const user =

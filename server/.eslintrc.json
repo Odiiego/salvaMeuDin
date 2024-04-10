@@ -13,8 +13,7 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["./tsconfig.json"],
-    "tsconfigRootDir": ["./server/", "/"]
+    "project": "**/tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
   "rules": {}
