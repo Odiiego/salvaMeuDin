@@ -1,4 +1,4 @@
-import { User } from './models';
+import { List, User } from './models';
 
 export function getUsers() {
   return User.find();
@@ -26,4 +26,8 @@ export function deleteUserById(id: string) {
 
 export function updateUserById(id: string, values: Record<string, any>) {
   return User.findByIdAndUpdate(id, values);
+}
+
+export function createList(values: Record<string, any>) {
+  return new List(values).save().then((list) => list.toObject());
 }

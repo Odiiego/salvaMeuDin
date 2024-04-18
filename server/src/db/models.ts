@@ -29,3 +29,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 export const User = mongoose.model('User', UserSchema);
+export const List = mongoose.model('List', ListSchema);
+export const Product = mongoose.model('Product', ProductSchema);
+export const Brand = mongoose.model('Brand', BrandSchema);

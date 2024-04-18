@@ -7,6 +7,7 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import { router as authRouter } from './routes/authentication';
 import { router as usersRouter } from './routes/users';
+import { router as listsRouter } from './routes/lists';
 import { MongoClient } from './db/mongo';
 
 const app = express();
@@ -25,6 +26,7 @@ MongoClient.connect();
 
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+app.use('/lists', listsRouter);
 
 const server = http.createServer(app);
 server.listen('8080', () => {
