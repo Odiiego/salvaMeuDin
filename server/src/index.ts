@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import { config } from 'dotenv';
-import mongoose from 'mongoose';
-import router from './router';
+import { router as authRouter } from './routes/authentication';
+import { router as usersRouter } from './routes/users';
 import { MongoClient } from './db/mongo';
 
 const app = express();
@@ -21,12 +21,13 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+MongoClient.connect();
+
+app.use('/auth', authRouter);
+app.use('/users', usersRouter);
+
 const server = http.createServer(app);
 server.listen('8080', () => {
   console.clear();
   console.log('Server running on:\nhttp://localhost:8080');
 });
-
-MongoClient.connect();
-
-app.use('/', router());
