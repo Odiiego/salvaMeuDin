@@ -1,5 +1,10 @@
 import express from 'express';
-import { createList, getUserById, updateListById } from '../db/actions';
+import {
+  createList,
+  deleteListById,
+  getUserById,
+  updateListById,
+} from '../db/actions';
 
 export const addList = async (req: express.Request, res: express.Response) => {
   try {
@@ -29,6 +34,22 @@ export const updateList = async (
     const { name } = req.body;
 
     const list = await updateListById(id, { name });
+
+    return res.status(200).json(list).end();
+  } catch (error) {
+    return res.sendStatus(400);
+  }
+};
+
+export const deleteList = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  try {
+    const { id } = req.params;
+
+    const list = await deleteListById(id);
+    if (!list) return res.sendStatus(400);
 
     return res.status(200).json(list).end();
   } catch (error) {
