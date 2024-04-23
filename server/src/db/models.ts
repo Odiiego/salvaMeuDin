@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 const BrandSchema = new mongoose.Schema({
   name: { type: String },
-  quantity: { Number },
-  price: { Number },
+  quantity: { type: Number },
+  price: { type: Number },
 });
 
 const ProductSchema = new mongoose.Schema({
   name: { type: String },
-  quantity: { Number },
+  quantity: { type: Number },
   brands: [BrandSchema],
 });
 
