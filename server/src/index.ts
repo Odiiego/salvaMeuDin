@@ -8,6 +8,7 @@ import { config } from 'dotenv';
 import { router as authRouter } from './routes/authentication';
 import { router as usersRouter } from './routes/users';
 import { router as listsRouter } from './routes/lists';
+import { router as productsRouter } from './routes/products';
 import { MongoClient } from './db/mongo';
 
 const app = express();
@@ -27,6 +28,7 @@ MongoClient.connect();
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
+app.use('/products', productsRouter);
 
 const server = http.createServer(app);
 server.listen('8080', () => {
