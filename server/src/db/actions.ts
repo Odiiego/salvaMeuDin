@@ -1,4 +1,4 @@
-import { List, User } from './models';
+import { List, Product, User } from './models';
 
 export function getUsers() {
   return User.find();
@@ -17,7 +17,7 @@ export function getUserById(id: string) {
 }
 
 export function createUser(values: Record<string, any>) {
-  return new User(values).save().then((user) => user.toObject());
+  return new User(values).save().then((data) => data.toObject());
 }
 
 export function deleteUserById(id: string) {
@@ -45,7 +45,7 @@ export async function updateListById(id: string, values: Record<string, any>) {
   );
 }
 
-async function getUserByListId(id: string) {
+export async function getUserByListId(id: string) {
   const user = await User.findOne({ 'lists._id': id });
   return user;
 }
@@ -57,4 +57,8 @@ export async function deleteListById(id: string) {
   list?.deleteOne();
   user?.save();
   return list;
+}
+
+export function createProduct(values: Record<string, any>) {
+  return new Product(values).save().then((data) => data.toObject());
 }
