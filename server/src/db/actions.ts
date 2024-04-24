@@ -62,3 +62,18 @@ export async function deleteListById(id: string) {
 export function createProduct(values: Record<string, any>) {
   return new Product(values).save().then((data) => data.toObject());
 }
+
+export async function updateProductById(
+  id: string,
+  values: Record<string, any>,
+) {
+  const product = await Product.findOne({ _id: id }).then((data) =>
+    data?.toObject(),
+  );
+  const user = await User.findOneAndUpdate(
+    { 'lists.content._id': id },
+    { $set: { 'lists.$.content': { ...product, ...values } } },
+    { new: true },
+  );
+  return user;
+}
