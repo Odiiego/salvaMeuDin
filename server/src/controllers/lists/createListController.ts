@@ -14,7 +14,6 @@ export const createListController = async (
     const user = await getUserById(id);
     user?.lists.push({
       name,
-      path: { userId: id },
       content: [],
     });
     user?.save();

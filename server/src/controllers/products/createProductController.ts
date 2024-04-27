@@ -14,7 +14,6 @@ export const createProductController = async (
     list?.content.push({
       name,
       quantity,
-      path: { ...list.path, listId: id },
       brands: [],
     });
     user?.save();
