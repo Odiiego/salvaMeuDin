@@ -1,6 +1,6 @@
 import express from 'express';
 import { getPathToProduct } from './helpers';
-import { User } from '../../db/models';
+import { getUserById } from '../users/helpers';
 
 export const updateProductController = async (
   req: express.Request,
@@ -9,10 +9,9 @@ export const updateProductController = async (
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
-
     const { userId, listId } = await getPathToProduct(id);
 
-    const user = await User.findById(userId);
+    const user = await getUserById(userId);
     const list = user?.lists.id(listId);
     const product = list?.content.id(id);
     if (!product) return res.sendStatus(400);
