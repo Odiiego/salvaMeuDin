@@ -4,23 +4,16 @@ export const BrandSchema = new mongoose.Schema({
   name: { type: String },
   quantity: { type: Number },
   price: { type: Number },
-  path: {
-    userId: { type: String },
-    listId: { type: String },
-    productId: { type: String },
-  },
 });
 
 export const ProductSchema = new mongoose.Schema({
   name: { type: String },
   quantity: { type: Number },
-  path: { userId: { type: String }, listId: { type: String } },
   brands: [BrandSchema],
 });
 
 export const ListSchema = new mongoose.Schema({
   name: { type: String },
-  path: { userId: { type: String } },
   content: [ProductSchema],
 });
 
