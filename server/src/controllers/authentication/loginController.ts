@@ -1,6 +1,6 @@
 import express from 'express';
 import { authentication, random } from './helpers';
-import { getUserByEmail } from '../users/helpers';
+import { getUserByEmail, getUserById } from '../users/helpers';
 
 export const loginController = async (
   req: express.Request,
@@ -32,7 +32,9 @@ export const loginController = async (
       domain: 'localhost',
       path: '/',
     });
-    return res.status(200).json(user).end();
+
+    const userProfile = await getUserById(user.id);
+    return res.status(200).json(userProfile).end();
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
