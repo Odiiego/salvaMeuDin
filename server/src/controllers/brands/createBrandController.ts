@@ -23,7 +23,9 @@ export const createBrandController = async (
     });
     user?.save();
 
-    return res.status(200).json(user).end();
+    const brand = product?.brands[product?.brands.length - 1];
+
+    return res.status(200).json(brand).end();
   } catch (error) {
     return res.sendStatus(400);
   }

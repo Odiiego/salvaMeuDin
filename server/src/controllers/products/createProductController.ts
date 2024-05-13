@@ -18,7 +18,9 @@ export const createProductController = async (
     });
     user?.save();
 
-    return res.status(200).json(user).end();
+    const product = list?.content[list?.content.length - 1];
+
+    return res.status(200).json(product).end();
   } catch (error) {
     return res.sendStatus(400);
   }
