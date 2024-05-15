@@ -17,8 +17,3 @@ export interface IList {
   name: string;
   content: IProduct[];
 }
-
-export interface IBestPrice {
-  quantity: number;
-  price: number;
-}
