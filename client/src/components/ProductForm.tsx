@@ -54,7 +54,7 @@ function ProductForm({
   return (
     <form className="flex items-center gap-1" onSubmit={handleSubmit(onSubmit)}>
       <input
-        className={`w-20 text-center border-2 rounded py-[1px] border-black ${
+        className={`w-14 text-center border-2 rounded py-[1px] border-black ${
           errors.quantity ? 'outline-red-500' : 'outline-teal-300'
         }`}
         placeholder="Quant"
@@ -63,7 +63,7 @@ function ProductForm({
         {...register('quantity', { min: 1, max: 999 })}
       />
       <input
-        className={`w-60 text-center border-2 rounded py-[1px] border-black ${
+        className={`w-[248px] text-center border-2 rounded py-[1px] border-black ${
           errors.name ? 'outline-red-500' : 'outline-teal-300'
         }`}
         placeholder="Produto"

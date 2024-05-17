@@ -53,7 +53,7 @@ function BrandForm({ product: { id, brands, setBrands } }: BrandFormProps) {
   return (
     <form className="flex items-center gap-1" onSubmit={handleSubmit(onSubmit)}>
       <input
-        className={`w-20 text-center border-2 rounded py-[1px] border-black ${
+        className={`w-16 text-center border-2 rounded py-[1px] border-black ${
           errors.quantity ? 'outline-red-500' : 'outline-teal-300'
         }`}
         placeholder="Quant"
@@ -62,7 +62,7 @@ function BrandForm({ product: { id, brands, setBrands } }: BrandFormProps) {
         {...register('quantity', { min: 1, max: 9999 })}
       />
       <input
-        className={`w-20 text-center border-2 rounded py-[1px] border-black ${
+        className={`w-16 text-center border-2 rounded py-[1px] border-black ${
           errors.price ? 'outline-red-500' : 'outline-teal-300'
         }`}
         placeholder="Preço"
@@ -71,7 +71,7 @@ function BrandForm({ product: { id, brands, setBrands } }: BrandFormProps) {
         {...register('price', { required: true, min: 0, max: 999999.99 })}
       />
       <input
-        className={`w-40 text-center border-2 rounded py-[1px] border-black ${
+        className={`w-[138px] text-center border-2 rounded py-[1px] border-black ${
           errors.name ? 'outline-red-500' : 'outline-teal-300'
         }`}
         placeholder="Marca"
