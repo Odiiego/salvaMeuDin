@@ -68,7 +68,7 @@ function BrandForm({ product: { id, brands, setBrands } }: BrandFormProps) {
         placeholder="Preço"
         type="number"
         step="0.01"
-        {...register('price', { required: true, min: 0 })}
+        {...register('price', { required: true, min: 0, max: 999999.99 })}
       />
       <input
         className={`w-40 text-center border-2 rounded py-[1px] border-black ${

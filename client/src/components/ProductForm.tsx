@@ -60,7 +60,7 @@ function ProductForm({
         placeholder="Quant"
         type="number"
         step="0.01"
-        {...register('quantity', { min: 1 })}
+        {...register('quantity', { min: 1, max: 999 })}
       />
       <input
         className={`w-60 text-center border-2 rounded py-[1px] border-black ${
