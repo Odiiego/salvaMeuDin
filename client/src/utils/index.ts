@@ -34,19 +34,37 @@ export function getBrandMetrics(
 }
 
 export function getBestMetrics(intendedQuantity: number, brands: IBrand[]) {
-  let bestCostPerUnit: number | null = null;
-  let bestCostProjection: number | null = null;
+  let bestCostPerUnit: { price: number | null; costPerUnit: number | null } = {
+    price: null,
+    costPerUnit: null,
+  };
+  let bestCostProjection: {
+    price: number | null;
+    costProjection: number | null;
+  } = {
+    price: null,
+    costProjection: null,
+  };
   brands.map((brand) => {
     const { costPerUnit, costProjection } = getBrandMetrics(
       intendedQuantity,
       brand.quantity,
       brand.price,
     );
-    if (!bestCostPerUnit || bestCostPerUnit > costPerUnit) {
-      bestCostPerUnit = costPerUnit;
+    if (
+      !bestCostPerUnit.costPerUnit ||
+      bestCostPerUnit.costPerUnit > costPerUnit
+    ) {
+      bestCostPerUnit = { price: brand.price, costPerUnit };
     }
-    if (!bestCostProjection || bestCostProjection > costProjection) {
-      bestCostProjection = costProjection;
+    if (
+      !bestCostProjection.costProjection ||
+      bestCostProjection.costProjection > costProjection
+    ) {
+      bestCostProjection = {
+        price: getCostProjection(intendedQuantity, brand.quantity, brand.price),
+        costProjection,
+      };
     }
   });
   return { bestCostPerUnit, bestCostProjection };
