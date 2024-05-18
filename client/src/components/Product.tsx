@@ -26,11 +26,9 @@ function Product({
 
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
     setCheckStatus(e.target.checked);
-    // if (!bestPrice) return;
-    // checkStatus
-    //   ? list.setTotal(list.total - bestPrice.price)
-    //   : list.setTotal(list.total + bestPrice.price);
+    checkStatus ? setTotal(total - 1) : setTotal(total + 1);
   }
+
   return (
     <li className="mt-1.5 flex flex-col items-center justify-center">
       <span className="flex justify-center items-center">
@@ -63,7 +61,7 @@ function Product({
           type="submit"
         >
           <span
-            className={`bg-teal-300 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
+            className={`bg-teal-300 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
           ></span>
           {activeForm === product._id ? (
             <SquareChevronLeft
