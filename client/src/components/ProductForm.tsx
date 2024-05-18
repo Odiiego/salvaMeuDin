@@ -82,7 +82,7 @@ function ProductForm({
           className={`${
             errors.name || errors.quantity ? 'bg-red-500' : 'bg-teal-300'
           }
-          w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
+          w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
         ></span>
         <SquarePlus
           className="absolute w-full transition-colors duration-300 ease-in-out group-hover:text-white group-focus:text-white"
