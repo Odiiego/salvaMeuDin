@@ -1,16 +1,17 @@
-import React from 'react';
 import { IBrand } from '../types';
 import Brand from './Brand';
 import { getBestMetrics, getBrandMetrics } from '../utils';
 
 interface BrandListProps {
   brands: IBrand[];
-  product: { quantity: number };
+  product: {
+    quantity: number;
+  };
 }
 
-function BrandList({ brands, product }: BrandListProps) {
+function BrandList({ brands, product: { quantity } }: BrandListProps) {
   const { bestCostPerUnit, bestCostProjection } = getBestMetrics(
-    product.quantity,
+    quantity,
     brands,
   );
 
@@ -32,18 +33,18 @@ function BrandList({ brands, product }: BrandListProps) {
       </p>
       {brands.map((brand) => {
         const { costPerUnit, costProjection } = getBrandMetrics(
-          product.quantity,
+          quantity,
           brand.quantity,
           brand.price,
         );
-
         return (
           <Brand
             key={brand._id}
             brand={brand}
             badges={{
-              costProjection: bestCostProjection === costProjection,
-              costPerUnit: bestCostPerUnit === costPerUnit,
+              costProjection:
+                bestCostProjection.costProjection === costProjection,
+              costPerUnit: bestCostPerUnit.costPerUnit === costPerUnit,
             }}
           />
         );
