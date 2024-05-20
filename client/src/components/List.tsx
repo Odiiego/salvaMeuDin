@@ -12,7 +12,9 @@ function List() {
   const [products, setProducts] = React.useState<IProduct[] | null>(null);
   const [activeForm, setActiveForm] = React.useState<string | null>(null);
   const [total, setTotal] = React.useState(0);
-  const [listMode, setListMode] = React.useState(true);
+  const [listMode, setListMode] = React.useState<'economia' | 'oferta'>(
+    'economia',
+  );
 
   React.useEffect(() => {
     async function getList() {
@@ -41,7 +43,7 @@ function List() {
         <div className="flex gap-1 items-center mt-1">
           <span
             className="flex gap-1 items-center group cursor-pointer"
-            onClick={() => setListMode(true)}
+            onClick={() => setListMode('economia')}
           >
             <span className={'font-bold text-right text-xs leading-3'}>
               Priorizar
@@ -50,7 +52,7 @@ function List() {
             </span>
             <span
               className={`w-[30px] h-[30px] rounded-full relative inline-flex items-center justify-start overflow-hidden font-medium transition-all group ${
-                listMode
+                listMode === 'economia'
                   ? 'bg-teal-300 hover:bg-teal-300 focus:bg-teal-300'
                   : 'bg-white hover:bg-white focus:bg-white'
               }`}
@@ -60,7 +62,7 @@ function List() {
               ></span>
               <BadgeDollarSign
                 className={`absolute w-full transition-colors duration-300 ease-in-out  ${
-                  listMode
+                  listMode === 'economia'
                     ? 'text-white'
                     : 'group-hover:text-white group-focus:text-white'
                 }`}
@@ -71,11 +73,11 @@ function List() {
           </span>
           <span
             className="flex gap-1 items-center group cursor-pointer"
-            onClick={() => setListMode(false)}
+            onClick={() => setListMode('oferta')}
           >
             <span
               className={`w-[30px] h-[30px] rounded-full relative inline-flex items-center justify-start overflow-hidden font-medium transition-all group ${
-                !listMode
+                listMode === 'oferta'
                   ? 'bg-teal-300 hover:bg-teal-300 focus:bg-teal-300'
                   : 'bg-white hover:bg-white focus:bg-white'
               }`}
@@ -88,7 +90,7 @@ function List() {
 
               <BadgePercent
                 className={`absolute w-full transition-colors duration-300 ease-in-out  ${
-                  !listMode
+                  listMode === 'oferta'
                     ? 'text-white'
                     : 'group-hover:text-white group-focus:text-white'
                 }`}
@@ -110,7 +112,7 @@ function List() {
             return (
               <Product
                 key={product._id}
-                list={{ total, setTotal }}
+                list={{ total, setTotal, listMode }}
                 form={{ activeForm, setActiveForm }}
                 product={product}
               />
