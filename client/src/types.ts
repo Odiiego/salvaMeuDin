@@ -17,3 +17,9 @@ export interface IList {
   name: string;
   content: IProduct[];
 }
+
+export interface IMetrics {
+  price: number | null;
+  costPerUnit?: number | null;
+  costProjection?: number | null;
+}
