@@ -1,15 +1,22 @@
-import { IBrand } from '../types';
+import { IBrand, IMetrics } from '../types';
 import Brand from './Brand';
 import { getBestMetrics, getBrandMetrics } from '../utils';
+import React from 'react';
 
 interface BrandListProps {
   brands: IBrand[];
   product: {
+    defaultMetrics: IMetrics | null;
     quantity: number;
+    selectedBrand: IBrand | null;
+    setSelectedBrand: React.Dispatch<React.SetStateAction<IBrand | null>>;
   };
 }
 
-function BrandList({ brands, product: { quantity } }: BrandListProps) {
+function BrandList({
+  brands,
+  product: { quantity, defaultMetrics, selectedBrand, setSelectedBrand },
+}: BrandListProps) {
   const { bestCostPerUnit, bestCostProjection } = getBestMetrics(
     quantity,
     brands,
@@ -37,9 +44,20 @@ function BrandList({ brands, product: { quantity } }: BrandListProps) {
           brand.quantity,
           brand.price,
         );
+
+        const defBrand = defaultMetrics?.costPerUnit
+          ? defaultMetrics?.costPerUnit === costPerUnit &&
+            defaultMetrics.price === brand.price
+          : defaultMetrics?.costProjection === costProjection &&
+            defaultMetrics.price === brand.price;
         return (
           <Brand
             key={brand._id}
+            brandList={{
+              selectedBrandId: selectedBrand?._id,
+              defaultBrand: defBrand,
+              setSelectedBrand,
+            }}
             brand={brand}
             badges={{
               costProjection:

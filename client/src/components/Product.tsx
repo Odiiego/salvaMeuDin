@@ -1,12 +1,14 @@
 import React from 'react';
-import { IProduct } from '../types';
+import { IBrand, IMetrics, IProduct } from '../types';
 import BrandForm from './BrandForm';
 import { SquareChevronLeft, SquareChevronRight } from 'lucide-react';
 import BrandList from './BrandList';
+import { getBestMetrics } from '../utils';
 
 interface ProductProps {
   product: IProduct;
   list: {
+    listMode: 'economia' | 'oferta';
     total: number;
     setTotal: React.Dispatch<React.SetStateAction<number>>;
   };
@@ -19,14 +21,49 @@ interface ProductProps {
 function Product({
   product,
   form: { activeForm, setActiveForm },
-  list: { total, setTotal },
+  list: { total, setTotal, listMode },
 }: ProductProps) {
+  const [selectedBrand, setSelectedBrand] = React.useState<IBrand | null>(null);
+  const [defaultPrice, setDefaultPrice] = React.useState(0);
   const [brands, setBrands] = React.useState(product.brands);
   const [checkStatus, setCheckStatus] = React.useState(false);
+  const [defaultMetrics, setDefaultMetrics] = React.useState<IMetrics | null>(
+    null,
+  );
+  const [prevPrice, setPrevPrice] = React.useState(0);
+
+  React.useEffect(() => {
+    const { bestCostPerUnit, bestCostProjection } = getBestMetrics(
+      product.quantity,
+      brands,
+    );
+
+    setDefaultMetrics(
+      listMode === 'economia' ? bestCostProjection : bestCostPerUnit,
+    );
+
+    if (bestCostPerUnit.price && bestCostProjection.price) {
+      setDefaultPrice(
+        listMode === 'economia'
+          ? bestCostProjection.price
+          : bestCostPerUnit.price,
+      );
+      if (prevPrice === 0) {
+        setPrevPrice(defaultPrice);
+      }
+    }
+  }, [brands, defaultPrice, listMode, prevPrice, product.quantity]);
+
+  React.useEffect(() => {
+    const price = selectedBrand ? selectedBrand.price : defaultPrice;
+    if (checkStatus) setTotal(total - prevPrice + price);
+    setPrevPrice(price);
+  }, [checkStatus, defaultPrice, prevPrice, selectedBrand, setTotal, total]);
 
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
     setCheckStatus(e.target.checked);
-    checkStatus ? setTotal(total - 1) : setTotal(total + 1);
+    const price = selectedBrand ? selectedBrand.price : defaultPrice;
+    checkStatus ? setTotal(total - price) : setTotal(total + price);
   }
 
   return (
@@ -79,7 +116,15 @@ function Product({
         </button>
       </span>
       {brands.length > 0 && (
-        <BrandList product={{ quantity: product.quantity }} brands={brands} />
+        <BrandList
+          product={{
+            quantity: product.quantity,
+            selectedBrand,
+            defaultMetrics,
+            setSelectedBrand,
+          }}
+          brands={brands}
+        />
       )}
     </li>
   );

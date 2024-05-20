@@ -1,17 +1,47 @@
+import { Badge, BadgeCheck } from 'lucide-react';
 import { IBrand } from '../types';
 import { formatCurrency } from '../utils';
 
 interface BrandProps {
   brand: IBrand;
+  brandList: {
+    selectedBrandId: string | undefined;
+    defaultBrand: boolean;
+    setSelectedBrand: React.Dispatch<React.SetStateAction<IBrand | null>>;
+  };
   badges: {
     costProjection: boolean;
     costPerUnit: boolean;
   };
 }
 
-function Brand({ brand, badges }: BrandProps) {
+function Brand({
+  brand,
+  badges,
+  brandList: { selectedBrandId, defaultBrand, setSelectedBrand },
+}: BrandProps) {
   return (
-    <li className="block w-fit">
+    <li
+      onClick={() => setSelectedBrand(brand)}
+      className={`flex relative items-center w-fit box-border border-transparent border-b-2 cursor-pointer group`}
+    >
+      {(selectedBrandId === brand._id ||
+        (!selectedBrandId && defaultBrand)) && (
+        <span className="flex md:ml-[-17px] items-center absolute w-full z-[-10] ">
+          {selectedBrandId === brand._id ? (
+            <>
+              <BadgeCheck
+                className="text-white rounded-full bg-teal-300"
+                size={17}
+              />
+            </>
+          ) : !selectedBrandId && defaultBrand ? (
+            <Badge className="text-white rounded-full bg-slate-400" size={17} />
+          ) : (
+            ''
+          )}
+        </span>
+      )}
       <span className="flex leading-5 gap-0.5">
         <span className="w-12 leading-5 text-right">
           {brand.quantity}
