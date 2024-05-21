@@ -25,7 +25,7 @@ function Brand({
       onClick={() =>
         setSelectedBrand(selectedBrandId === brand._id ? null : brand)
       }
-      className={`flex relative items-center w-fit box-border border-transparent border-b-2 cursor-pointer group`}
+      className={`flex relative mb-[1px] items-center cursor-pointer`}
     >
       {(selectedBrandId === brand._id ||
         (!selectedBrandId && defaultBrand)) && (
