@@ -22,7 +22,9 @@ function Brand({
 }: BrandProps) {
   return (
     <li
-      onClick={() => setSelectedBrand(brand)}
+      onClick={() =>
+        setSelectedBrand(selectedBrandId === brand._id ? null : brand)
+      }
       className={`flex relative items-center w-fit box-border border-transparent border-b-2 cursor-pointer group`}
     >
       {(selectedBrandId === brand._id ||
