@@ -4,18 +4,23 @@ import Login from './layouts/Login';
 import Register from './layouts/Register';
 import User from './layouts/User';
 import List from './components/List';
+import Background from './components/Background';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/list/:id" element={<List />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Background>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/list/:id" element={<List />} />
+          </Routes>
+        </BrowserRouter>
+      </Background>
+    </>
   );
 }
 
