@@ -36,7 +36,7 @@ function List() {
 
   return (
     <>
-      <header className="flex flex-col items-center mt-6 mb-8">
+      <header className="flex flex-col items-center pt-6 mb-8">
         <h1 className="font-bold text-8xl font-sairaStencil text-downriver-950 select-none">
           {list?.name}
         </h1>
