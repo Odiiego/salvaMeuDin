@@ -54,8 +54,8 @@ function ProductForm({
   return (
     <form className="flex items-center gap-1" onSubmit={handleSubmit(onSubmit)}>
       <input
-        className={`w-14 text-center border-2 rounded py-[1px] border-black ${
-          errors.quantity ? 'outline-red-500' : 'outline-teal-300'
+        className={`w-14 text-center border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
+          errors.quantity ? 'outline-red-500' : 'outline-aquamarine-600'
         }`}
         placeholder="Quant"
         type="number"
@@ -63,8 +63,8 @@ function ProductForm({
         {...register('quantity', { min: 1, max: 999 })}
       />
       <input
-        className={`w-[248px] text-center border-2 rounded py-[1px] border-black ${
-          errors.name ? 'outline-red-500' : 'outline-teal-300'
+        className={`w-[248px] text-center border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
+          errors.name ? 'outline-red-500' : 'outline-aquamarine-600'
         }`}
         placeholder="Produto"
         type="text"
@@ -74,18 +74,18 @@ function ProductForm({
 
       <button
         className={
-          'w-[30px] h-[30px] relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group focus:bg-white group'
+          'w-[30px] h-[30px] text-downriver-950 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all rounded hover:bg-white group focus:bg-white group'
         }
         type="submit"
       >
         <span
           className={`${
-            errors.name || errors.quantity ? 'bg-red-500' : 'bg-teal-300'
+            errors.name || errors.quantity ? 'bg-red-500' : 'bg-aquamarine-600'
           }
-          w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
+        w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
         ></span>
         <SquarePlus
-          className="absolute w-full transition-colors duration-300 ease-in-out group-hover:text-white group-focus:text-white"
+          className="absolute w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50 group-focus:text-aquamarine-50"
           strokeWidth={1.5}
           size={30}
         />
