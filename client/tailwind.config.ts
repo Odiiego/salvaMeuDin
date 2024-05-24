@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         firaMono: ['Fira Mono', 'monospace'],
+        sairaStencil: ['Saira Stencil One', 'sans-serif'],
       },
       colors: {
         aquamarine: {
