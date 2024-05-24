@@ -4,6 +4,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        vertical: "url('/src/assets/vertical-bg.png')",
+        horizontal: "url('/src/assets/horizontal-bg.png')",
+      },
       fontFamily: {
         firaMono: ['Fira Mono', 'monospace'],
         sairaStencil: ['Saira Stencil One', 'sans-serif'],
