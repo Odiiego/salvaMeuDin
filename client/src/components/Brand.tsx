@@ -29,18 +29,20 @@ function Brand({
     >
       {(selectedBrandId === brand._id ||
         (!selectedBrandId && defaultBrand)) && (
-        <span className="flex md:ml-[-17px] items-center absolute w-full z-[-10] ">
+        <span className="flex md:ml-[-17px] items-center absolute w-full">
           {selectedBrandId === brand._id ? (
-            <>
-              <BadgeCheck
-                className="text-white rounded-full bg-teal-300"
+            <BadgeCheck
+              className="text-white rounded-full bg-downriver-950"
+              size={17}
+            />
+          ) : (
+            !selectedBrandId &&
+            defaultBrand && (
+              <Badge
+                className="text-white rounded-full bg-downriver-200"
                 size={17}
               />
-            </>
-          ) : !selectedBrandId && defaultBrand ? (
-            <Badge className="text-white rounded-full bg-slate-400" size={17} />
-          ) : (
-            ''
+            )
           )}
         </span>
       )}
