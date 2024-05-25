@@ -23,3 +23,8 @@ export interface IMetrics {
   costPerUnit?: number | null;
   costProjection?: number | null;
 }
+
+export interface IFormStatus {
+  addBrandForm: string | null;
+  updateProductForm: string | null;
+}
