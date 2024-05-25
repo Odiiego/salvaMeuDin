@@ -47,9 +47,9 @@ function BrandList({
 
         const defBrand = defaultMetrics?.costPerUnit
           ? defaultMetrics?.costPerUnit === costPerUnit &&
-            defaultMetrics.price === brand.price
+            defaultMetrics.price === costProjection
           : defaultMetrics?.costProjection === costProjection &&
-            defaultMetrics.price === brand.price;
+            defaultMetrics.price === costProjection;
         return (
           <Brand
             key={brand._id}

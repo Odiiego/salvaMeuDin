@@ -3,7 +3,7 @@ import { IBrand, IMetrics, IProduct } from '../types';
 import BrandForm from './BrandForm';
 import { SquareChevronLeft, SquareChevronRight } from 'lucide-react';
 import BrandList from './BrandList';
-import { getBestMetrics } from '../utils';
+import { getBestMetrics, getCostProjection } from '../utils';
 
 interface ProductProps {
   product: IProduct;
@@ -55,14 +55,34 @@ function Product({
   }, [brands, defaultPrice, listMode, prevPrice, product.quantity]);
 
   React.useEffect(() => {
-    const price = selectedBrand ? selectedBrand.price : defaultPrice;
+    const price = selectedBrand
+      ? getCostProjection(
+          product.quantity,
+          selectedBrand.quantity,
+          selectedBrand.price,
+        )
+      : defaultPrice;
     if (checkStatus) setTotal(total - prevPrice + price);
     setPrevPrice(price);
-  }, [checkStatus, defaultPrice, prevPrice, selectedBrand, setTotal, total]);
+  }, [
+    checkStatus,
+    defaultPrice,
+    prevPrice,
+    product.quantity,
+    selectedBrand,
+    setTotal,
+    total,
+  ]);
 
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
     setCheckStatus(e.target.checked);
-    const price = selectedBrand ? selectedBrand.price : defaultPrice;
+    const price = selectedBrand
+      ? getCostProjection(
+          product.quantity,
+          selectedBrand.quantity,
+          selectedBrand.price,
+        )
+      : defaultPrice;
     checkStatus ? setTotal(total - price) : setTotal(total + price);
   }
 
