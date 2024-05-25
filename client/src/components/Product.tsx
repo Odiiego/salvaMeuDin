@@ -93,16 +93,7 @@ function Product({
       <span className="flex justify-center items-center">
         {formStatus.addBrandForm !== product._id &&
         formStatus.updateProductForm !== product._id ? (
-          <span
-            className="flex gap-1 items-center"
-            onDoubleClick={() => {
-              const productForm =
-                product._id === formStatus.updateProductForm
-                  ? null
-                  : product._id;
-              setFormStatus({ ...formStatus, updateProductForm: productForm });
-            }}
-          >
+          <span className="flex gap-1 items-center">
             <input
               className="accent-downriver-950 cursor-pointer"
               type="checkbox"
@@ -110,12 +101,26 @@ function Product({
               checked={checkStatus}
               onChange={handleCheck}
             />
-            <span className="w-14 font-medium inline-block leading-5">
-              {product.quantity}
-              <span className="text-xs">un</span>
-            </span>
-            <span className="w-[231px] font-medium  align-text-bottom inline-block leading-5 truncate">
-              {product.name}
+            <span
+              className="flex gap-1 items-center"
+              onDoubleClick={() => {
+                const productForm =
+                  product._id === formStatus.updateProductForm
+                    ? null
+                    : product._id;
+                setFormStatus({
+                  ...formStatus,
+                  updateProductForm: productForm,
+                });
+              }}
+            >
+              <span className="w-14 font-medium inline-block leading-5">
+                {product.quantity}
+                <span className="text-xs">un</span>
+              </span>
+              <span className="w-[231px] font-medium  align-text-bottom inline-block leading-5 truncate">
+                {product.name}
+              </span>
             </span>
           </span>
         ) : formStatus.addBrandForm === product._id ? (
