@@ -1,9 +1,10 @@
 import React from 'react';
-import { IBrand, IMetrics, IProduct } from '../types';
+import { IFormStatus, IBrand, IMetrics, IProduct } from '../types';
 import BrandForm from './BrandForm';
 import { SquareChevronLeft, SquareChevronRight } from 'lucide-react';
 import BrandList from './BrandList';
 import { getBestMetrics, getCostProjection } from '../utils';
+import UpdateProductForm from './UpdateProductForm';
 
 interface ProductProps {
   product: IProduct;
@@ -11,17 +12,18 @@ interface ProductProps {
     listMode: 'economia' | 'oferta';
     total: number;
     setTotal: React.Dispatch<React.SetStateAction<number>>;
+    updateProductList: (product: IProduct) => void;
   };
   form: {
-    activeForm: string | null;
-    setActiveForm: React.Dispatch<React.SetStateAction<string | null>>;
+    formStatus: IFormStatus;
+    setFormStatus: React.Dispatch<React.SetStateAction<IFormStatus>>;
   };
 }
 
 function Product({
   product,
-  form: { activeForm, setActiveForm },
-  list: { total, setTotal, listMode },
+  form: { formStatus, setFormStatus },
+  list: { total, setTotal, listMode, updateProductList },
 }: ProductProps) {
   const [selectedBrand, setSelectedBrand] = React.useState<IBrand | null>(null);
   const [defaultPrice, setDefaultPrice] = React.useState(0);
@@ -89,8 +91,18 @@ function Product({
   return (
     <li className="mt-1.5 flex flex-col items-center justify-center">
       <span className="flex justify-center items-center">
-        {activeForm !== product._id ? (
-          <span className="flex gap-1 items-center">
+        {formStatus.addBrandForm !== product._id &&
+        formStatus.updateProductForm !== product._id ? (
+          <span
+            className="flex gap-1 items-center"
+            onDoubleClick={() => {
+              const productForm =
+                product._id === formStatus.updateProductForm
+                  ? null
+                  : product._id;
+              setFormStatus({ ...formStatus, updateProductForm: productForm });
+            }}
+          >
             <input
               className="accent-downriver-950 cursor-pointer"
               type="checkbox"
@@ -106,12 +118,19 @@ function Product({
               {product.name}
             </span>
           </span>
-        ) : (
+        ) : formStatus.addBrandForm === product._id ? (
           <BrandForm product={{ id: product._id, brands, setBrands }} />
+        ) : (
+          <UpdateProductForm
+            form={{ formStatus, setFormStatus }}
+            product={{ product, updateProductList }}
+          />
         )}
         <button
           onClick={() => {
-            setActiveForm(product._id === activeForm ? null : product._id);
+            const brandForm =
+              product._id === formStatus.addBrandForm ? null : product._id;
+            setFormStatus({ updateProductForm: null, addBrandForm: brandForm });
           }}
           className={
             'ml-1 w-[30px] h-[30px] text-aquamarine-950 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all rounded hover:bg-aquamarine-50 group'
@@ -121,7 +140,7 @@ function Product({
           <span
             className={`bg-aquamarine-600 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
           ></span>
-          {activeForm === product._id ? (
+          {formStatus.addBrandForm === product._id ? (
             <SquareChevronLeft
               className="absolute text-downriver-950 w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50"
               strokeWidth={1.5}

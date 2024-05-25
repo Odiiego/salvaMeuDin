@@ -1,5 +1,5 @@
 import React from 'react';
-import { IList, IProduct } from '../types';
+import { IFormStatus, IList, IProduct } from '../types';
 import Product from './Product';
 import { useParams } from 'react-router-dom';
 import ProductForm from './ProductForm';
@@ -10,11 +10,30 @@ function List() {
   const { id } = useParams();
   const [list, setList] = React.useState<IList | null>(null);
   const [products, setProducts] = React.useState<IProduct[] | null>(null);
-  const [activeForm, setActiveForm] = React.useState<string | null>(null);
+  const [formStatus, setFormStatus] = React.useState<IFormStatus>({
+    addBrandForm: null,
+    updateProductForm: null,
+  });
   const [total, setTotal] = React.useState(0);
   const [listMode, setListMode] = React.useState<'economia' | 'oferta'>(
     'economia',
   );
+
+  function updateProductList(product: IProduct) {
+    if (!products) return;
+    const fitleredList = products?.filter((prod) => prod._id === product._id);
+    const updatedProductList = products?.map((prod) => {
+      if (prod._id === product._id) {
+        prod = product;
+      }
+      return prod;
+    });
+    const newList =
+      fitleredList && fitleredList?.length
+        ? updatedProductList
+        : [...products, product];
+    if (products) setProducts(newList);
+  }
 
   React.useEffect(() => {
     async function getList() {
@@ -43,17 +62,13 @@ function List() {
         <h2 className="font-bold text-3xl mb-4 font-sairaStencil text-downriver-950 select-none">
           R$ {formatCurrency(total)}
         </h2>
-        <ProductForm list={{ id: id, products, setProducts }} />
+        <ProductForm list={{ id: id, updateProductList }} />
         <div className="flex w-[342px] gap-1 items-center mt-1">
           <span
             className="flex w-[171px] justify-end gap-1 items-center group cursor-pointer"
             onClick={() => setListMode('economia')}
           >
-            <span
-              className={
-                'font-bold text-downriver-950 text-right text-sm leading-3'
-              }
-            >
+            <span className="font-bold text-downriver-950 text-right text-sm leading-3">
               Priorizar
               <br />
               Economia
@@ -65,9 +80,7 @@ function List() {
                   : 'hover:bg-downriver-50 focus:bg-downriver-50'
               }`}
             >
-              <span
-                className={`bg-downriver-950 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-1000 transition-all translate-y-full mb-0 ml-0 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
-              ></span>
+              <span className="bg-downriver-950 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-1000 transition-all translate-y-full mb-0 ml-0 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0"></span>
               <BadgeDollarSign
                 className={`absolute w-full transition-colors duration-300 ease-in-out  ${
                   listMode === 'economia'
@@ -90,9 +103,7 @@ function List() {
                   : 'hover:bg-downriver-50 focus:bg-downriver-50'
               }`}
             >
-              <span
-                className={`bg-downriver-950 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-1000 transition-all translate-y-full mb-0 ml-0 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0`}
-              ></span>
+              <span className="bg-downriver-950 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-1000 transition-all translate-y-full mb-0 ml-0 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-focus:ml-0 group-focus:mb-32 group-focus:translate-x-0"></span>
               <BadgePercent
                 className={`absolute w-full transition-colors duration-300 ease-in-out  ${
                   listMode === 'oferta'
@@ -103,11 +114,7 @@ function List() {
                 size={30}
               />
             </span>
-            <span
-              className={
-                'font-bold text-downriver-950 text-left text-sm leading-3'
-              }
-            >
+            <span className="font-bold text-downriver-950 text-left text-sm leading-3">
               Priorizar
               <br />
               Ofertas
@@ -121,8 +128,8 @@ function List() {
             return (
               <Product
                 key={product._id}
-                list={{ total, setTotal, listMode }}
-                form={{ activeForm, setActiveForm }}
+                list={{ total, setTotal, listMode, updateProductList }}
+                form={{ formStatus, setFormStatus }}
                 product={product}
               />
             );
