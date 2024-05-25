@@ -63,14 +63,7 @@ function UpdateProductForm({
   };
 
   return (
-    <form
-      className="flex items-center gap-1"
-      onBlur={() => {
-        if (product._id === formStatus.updateProductForm)
-          setFormStatus({ ...formStatus, updateProductForm: null });
-      }}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="flex items-center gap-1" onSubmit={handleSubmit(onSubmit)}>
       <input
         defaultValue={product.quantity}
         className={`w-14 text-center border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
