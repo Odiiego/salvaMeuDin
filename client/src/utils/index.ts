@@ -55,7 +55,10 @@ export function getBestMetrics(intendedQuantity: number, brands: IBrand[]) {
       !bestCostPerUnit.costPerUnit ||
       bestCostPerUnit.costPerUnit > costPerUnit
     ) {
-      bestCostPerUnit = { price: brand.price, costPerUnit };
+      bestCostPerUnit = {
+        price: getCostProjection(intendedQuantity, brand.quantity, brand.price),
+        costPerUnit,
+      };
     }
     if (
       !bestCostProjection.costProjection ||
