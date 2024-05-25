@@ -11,14 +11,11 @@ type createProductForm = {
 interface ProductFormProps {
   list: {
     id: string | undefined;
-    products: IProduct[] | null;
-    setProducts: React.Dispatch<React.SetStateAction<IProduct[] | null>>;
+    updateProductList: (product: IProduct) => void;
   };
 }
 
-function ProductForm({
-  list: { id, products, setProducts },
-}: ProductFormProps) {
+function ProductForm({ list: { id, updateProductList } }: ProductFormProps) {
   const [error, setError] = React.useState<null | string>(null);
   const {
     register,
@@ -44,7 +41,7 @@ function ProductForm({
       if (!product) setError('Não conseguimos cadastrar o produto.');
 
       setError(null);
-      if (products) setProducts([...products, product]);
+      updateProductList(product);
       setFocus('quantity');
       reset();
     } catch (error) {
