@@ -63,7 +63,7 @@ function List() {
           R$ {formatCurrency(total)}
         </h2>
         <ProductForm list={{ id: id, updateProductList }} />
-        <div className="flex w-[342px] gap-1 items-center mt-1">
+        <div className="flex w-[342px] select-none gap-1 items-center mt-1">
           <span
             className="flex w-[171px] justify-end gap-1 items-center group cursor-pointer"
             onClick={() => setListMode('economia')}

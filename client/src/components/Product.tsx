@@ -89,7 +89,7 @@ function Product({
   }
 
   return (
-    <li className="mt-1.5 flex flex-col items-center justify-center">
+    <li className="mt-1.5 flex flex-col select-none cursor-text items-center justify-center">
       <span className="flex justify-center items-center">
         {formStatus.addBrandForm !== product._id &&
         formStatus.updateProductForm !== product._id ? (
