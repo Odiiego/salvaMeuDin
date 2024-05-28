@@ -4,7 +4,7 @@ import Product from './Product';
 import { useParams } from 'react-router-dom';
 import ProductForm from './ProductForm';
 import { formatCurrency } from '../utils';
-import { BadgeDollarSign, BadgePercent } from 'lucide-react';
+import { BadgeDollarSign, BadgePercent, Calculator } from 'lucide-react';
 
 function List() {
   const { id } = useParams();
@@ -19,9 +19,10 @@ function List() {
     'economia',
   );
 
-  function updateProductList(product: IProduct) {
+  function updateProductList(product: IProduct, deleteProduct: boolean) {
     if (!products) return;
-    const fitleredList = products?.filter((prod) => prod._id === product._id);
+    const fitleredList = products?.filter((prod) => prod._id !== product._id);
+    if (deleteProduct) return setProducts(fitleredList);
     const updatedProductList = products?.map((prod) => {
       if (prod._id === product._id) {
         prod = product;
@@ -29,7 +30,7 @@ function List() {
       return prod;
     });
     const newList =
-      fitleredList && fitleredList?.length
+      fitleredList?.length < products.length
         ? updatedProductList
         : [...products, product];
     if (products) setProducts(newList);
@@ -59,8 +60,9 @@ function List() {
         <h1 className="font-bold text-8xl font-sairaStencil text-downriver-950 select-none">
           {list?.name}
         </h1>
-        <h2 className="font-bold text-3xl mb-4 font-sairaStencil text-downriver-950 select-none">
-          R$ {formatCurrency(total)}
+        <h2 className="flex items-center font-bold text-3xl mb-4 font-sairaStencil text-downriver-950 select-none">
+          <Calculator />
+          <span>R$ {formatCurrency(total)}</span>
         </h2>
         <ProductForm list={{ id: id, updateProductList }} />
         <div className="flex w-[342px] select-none gap-1 items-center mt-1">

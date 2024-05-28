@@ -11,7 +11,7 @@ type createProductForm = {
 interface ProductFormProps {
   list: {
     id: string | undefined;
-    updateProductList: (product: IProduct) => void;
+    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
   };
 }
 
@@ -41,7 +41,7 @@ function ProductForm({ list: { id, updateProductList } }: ProductFormProps) {
       if (!product) setError('Não conseguimos cadastrar o produto.');
 
       setError(null);
-      updateProductList(product);
+      updateProductList(product, false);
       setFocus('quantity');
       reset();
     } catch (error) {

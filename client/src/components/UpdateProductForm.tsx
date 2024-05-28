@@ -12,7 +12,7 @@ type updateProductForm = {
 interface UpdateProductFormProps {
   product: {
     product: IProduct;
-    updateProductList: (product: IProduct) => void;
+    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
   };
   form: {
     formStatus: IFormStatus;
@@ -47,14 +47,17 @@ function UpdateProductForm({
             'Content-Type': 'application/json',
           },
           credentials: 'include',
-          body: JSON.stringify({ ...rest, quantity: quantity ? quantity : 1 }),
+          body: JSON.stringify({
+            ...rest,
+            quantity: quantity ? quantity : product.quantity,
+          }),
         },
       );
 
       const updatedProduct: IProduct = await response.json();
       if (!updatedProduct) setError('Não conseguimos atualizar o produto.');
       setFormStatus({ ...formStatus, updateProductForm: null });
-      updateProductList(updatedProduct);
+      updateProductList(updatedProduct, false);
       setError(null);
     } catch (error) {
       console.log(error);
@@ -66,7 +69,13 @@ function UpdateProductForm({
     <form className="flex items-center gap-1" onSubmit={handleSubmit(onSubmit)}>
       <input
         defaultValue={product.quantity}
-        className={`w-14 text-center border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            setFocus('name');
+          }
+        }}
+        className={`w-14 pl-3 border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
           errors.quantity ? 'outline-red-500' : 'outline-aquamarine-600'
         }`}
         placeholder="Quant"
@@ -76,7 +85,7 @@ function UpdateProductForm({
       />
       <input
         defaultValue={product.name}
-        className={`w-[214px] text-center border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
+        className={`w-[214px] pl-4 border-2 rounded py-[1px] bg-aquamarine-50 border-aquamarine-950 ${
           errors.name ? 'outline-red-500' : 'outline-aquamarine-600'
         }`}
         placeholder="Produto"

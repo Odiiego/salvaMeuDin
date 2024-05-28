@@ -1,7 +1,7 @@
 import React from 'react';
 import { IFormStatus, IBrand, IMetrics, IProduct } from '../types';
 import BrandForm from './BrandForm';
-import { SquareChevronLeft, SquareChevronRight } from 'lucide-react';
+import { SquareChevronLeft, SquareChevronRight, SquareX } from 'lucide-react';
 import BrandList from './BrandList';
 import { getBestMetrics, getCostProjection } from '../utils';
 import UpdateProductForm from './UpdateProductForm';
@@ -12,7 +12,7 @@ interface ProductProps {
     listMode: 'economia' | 'oferta';
     total: number;
     setTotal: React.Dispatch<React.SetStateAction<number>>;
-    updateProductList: (product: IProduct) => void;
+    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
   };
   form: {
     formStatus: IFormStatus;
@@ -76,6 +76,23 @@ function Product({
     total,
   ]);
 
+  async function deleteProduct() {
+    const response = await fetch(
+      `http://localhost:8080/products/${product._id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      },
+    );
+
+    const updatedProduct: IProduct = await response.json();
+    setFormStatus({ ...formStatus, updateProductForm: null });
+    updateProductList(updatedProduct, true);
+  }
+
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
     setCheckStatus(e.target.checked);
     const price = selectedBrand
@@ -131,34 +148,56 @@ function Product({
             product={{ product, updateProductList }}
           />
         )}
-        <button
-          onClick={() => {
-            const brandForm =
-              product._id === formStatus.addBrandForm ? null : product._id;
-            setFormStatus({ updateProductForm: null, addBrandForm: brandForm });
-          }}
-          className={
-            'ml-1 w-[30px] h-[30px] text-aquamarine-950 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all rounded hover:bg-aquamarine-50 group'
-          }
-          type="submit"
-        >
-          <span
-            className={`bg-aquamarine-600 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
-          ></span>
-          {formStatus.addBrandForm === product._id ? (
-            <SquareChevronLeft
+        {formStatus.updateProductForm === product._id ? (
+          <button
+            onClick={deleteProduct}
+            className={
+              'ml-1 w-[30px] h-[30px] text-aquamarine-950 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all rounded hover:bg-aquamarine-50 group'
+            }
+            type="submit"
+          >
+            <span
+              className={`bg-aquamarine-600 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
+            ></span>
+            <SquareX
               className="absolute text-downriver-950 w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50"
               strokeWidth={1.5}
               size={30}
             />
-          ) : (
-            <SquareChevronRight
-              className="absolute text-downriver-950 w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50"
-              strokeWidth={1.5}
-              size={30}
-            />
-          )}
-        </button>
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              const brandForm =
+                product._id === formStatus.addBrandForm ? null : product._id;
+              setFormStatus({
+                updateProductForm: null,
+                addBrandForm: brandForm,
+              });
+            }}
+            className={
+              'ml-1 w-[30px] h-[30px] text-aquamarine-950 relative inline-flex items-center justify-start overflow-hidden font-medium transition-all rounded hover:bg-aquamarine-50 group'
+            }
+            type="submit"
+          >
+            <span
+              className={`bg-aquamarine-600 w-48 h-48 rounded rotate-[-40deg] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-10 ml-10 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0`}
+            ></span>
+            {formStatus.addBrandForm === product._id ? (
+              <SquareChevronLeft
+                className="absolute text-downriver-950 w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50"
+                strokeWidth={1.5}
+                size={30}
+              />
+            ) : (
+              <SquareChevronRight
+                className="absolute text-downriver-950 w-full transition-colors duration-300 ease-in-out group-hover:text-aquamarine-50"
+                strokeWidth={1.5}
+                size={30}
+              />
+            )}
+          </button>
+        )}
       </span>
       {brands.length > 0 && (
         <BrandList
