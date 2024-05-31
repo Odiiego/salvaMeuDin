@@ -9,7 +9,7 @@ function App() {
   return (
     <div
       className="
-        bg-vertical bg-cover bg-no-repeat h-screen min-h-screen overflow-auto
+        bg-vertical bg-bottom bg-cover bg-no-repeat h-screen min-h-screen overflow-auto
         md:bg-horizontal
       "
     >
