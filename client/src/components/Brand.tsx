@@ -39,7 +39,7 @@ function Brand({
             !selectedBrandId &&
             defaultBrand && (
               <Badge
-                className="text-white rounded-full bg-downriver-200"
+                className="text-white rounded-full bg-downriver-950"
                 size={17}
               />
             )
