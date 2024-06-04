@@ -1,8 +1,9 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IFormStatus, IProduct } from '../types';
+import { IProduct } from '../types';
 import { SquarePen } from 'lucide-react';
 import IconButton from './IconButton';
+import { useListContext } from '../hooks/useListContext';
 
 type updateProductForm = {
   quantity: number;
@@ -12,20 +13,17 @@ type updateProductForm = {
 
 interface UpdateProductFormProps {
   product: {
+    index: number;
     product: IProduct;
-    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
-  };
-  form: {
-    formStatus: IFormStatus;
-    setFormStatus: React.Dispatch<React.SetStateAction<IFormStatus>>;
   };
 }
 
 function UpdateProductForm({
-  product: { product, updateProductList },
-  form: { formStatus, setFormStatus },
+  product: { index, product },
 }: UpdateProductFormProps) {
   const [error, setError] = React.useState<null | string>(null);
+
+  const { toggleUpdateProductForm, manipulateProductList } = useListContext();
   const {
     register,
     setFocus,
@@ -55,11 +53,10 @@ function UpdateProductForm({
         },
       );
 
-      const updatedProduct: IProduct = await response.json();
-      if (!updatedProduct) setError('Não conseguimos atualizar o produto.');
-      setFormStatus({ ...formStatus, updateProductForm: null });
-      updateProductList(updatedProduct, false);
-      setError(null);
+      const data: IProduct = await response.json();
+      if (!data) setError('Não conseguimos atualizar o produto.');
+      manipulateProductList({ productIndex: index, product: data });
+      toggleUpdateProductForm(index);
     } catch (error) {
       console.log(error);
       setError('Algo deu errado.');

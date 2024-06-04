@@ -1,31 +1,28 @@
 import React from 'react';
-import { IFormStatus, IBrand, IMetrics, IProduct } from '../types';
+import { IBrand, IMetrics, IProduct } from '../types';
 import BrandForm from './BrandForm';
 import { SquareChevronLeft, SquareChevronRight, SquareX } from 'lucide-react';
 import BrandList from './BrandList';
 import { getBestMetrics, getCostProjection } from '../utils';
 import UpdateProductForm from './UpdateProductForm';
 import IconButton from './IconButton';
+import { useListContext } from '../hooks/useListContext';
 
 interface ProductProps {
-  product: IProduct;
-  list: {
-    listMode: 'economia' | 'oferta';
-    total: number;
-    setTotal: React.Dispatch<React.SetStateAction<number>>;
-    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
-  };
-  form: {
-    formStatus: IFormStatus;
-    setFormStatus: React.Dispatch<React.SetStateAction<IFormStatus>>;
+  product: {
+    index: number;
+    product: IProduct;
   };
 }
 
-function Product({
-  product,
-  form: { formStatus, setFormStatus },
-  list: { total, setTotal, listMode, updateProductList },
-}: ProductProps) {
+function Product({ product: { index, product } }: ProductProps) {
+  const {
+    displayAddBrandForm,
+    displayUpdateProductForm,
+    toggleAddBrandForm,
+    toggleUpdateProductForm,
+    manipulateProductList,
+  } = useListContext();
   const [selectedBrand, setSelectedBrand] = React.useState<IBrand | null>(null);
   const [defaultPrice, setDefaultPrice] = React.useState(0);
   const [brands, setBrands] = React.useState(product.brands);
@@ -34,6 +31,7 @@ function Product({
     null,
   );
   const [prevPrice, setPrevPrice] = React.useState(0);
+  const { listMode, updateTotal } = useListContext();
 
   React.useEffect(() => {
     const { bestCostPerUnit, bestCostProjection } = getBestMetrics(
@@ -65,7 +63,7 @@ function Product({
           selectedBrand.price,
         )
       : defaultPrice;
-    if (checkStatus) setTotal(total - prevPrice + price);
+    if (checkStatus) updateTotal(-prevPrice + price);
     setPrevPrice(price);
   }, [
     checkStatus,
@@ -73,25 +71,19 @@ function Product({
     prevPrice,
     product.quantity,
     selectedBrand,
-    setTotal,
-    total,
+    updateTotal,
   ]);
 
   async function deleteProduct() {
-    const response = await fetch(
-      `http://localhost:8080/products/${product._id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+    await fetch(`http://localhost:8080/products/${product._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
-
-    const updatedProduct: IProduct = await response.json();
-    setFormStatus({ ...formStatus, updateProductForm: null });
-    updateProductList(updatedProduct, true);
+      credentials: 'include',
+    });
+    manipulateProductList({ productIndex: index });
+    toggleUpdateProductForm(index);
   }
 
   function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
@@ -103,14 +95,13 @@ function Product({
           selectedBrand.price,
         )
       : defaultPrice;
-    checkStatus ? setTotal(total - price) : setTotal(total + price);
+    checkStatus ? updateTotal(-price) : updateTotal(price);
   }
 
   return (
     <li className="flex flex-col select-none cursor-text items-center justify-center">
       <span className="flex">
-        {formStatus.addBrandForm !== product._id &&
-        formStatus.updateProductForm !== product._id ? (
+        {!displayAddBrandForm(index) && !displayUpdateProductForm(index) ? (
           <span className="flex gap-1 items-center">
             <input
               className="accent-downriver-950 cursor-pointer"
@@ -121,16 +112,7 @@ function Product({
             />
             <span
               className="flex gap-1 items-center"
-              onDoubleClick={() => {
-                const productForm =
-                  product._id === formStatus.updateProductForm
-                    ? null
-                    : product._id;
-                setFormStatus({
-                  ...formStatus,
-                  updateProductForm: productForm,
-                });
-              }}
+              onDoubleClick={() => toggleUpdateProductForm(index)}
             >
               <span className="w-14 font-medium inline-block leading-5">
                 {product.quantity}
@@ -141,30 +123,18 @@ function Product({
               </span>
             </span>
           </span>
-        ) : formStatus.addBrandForm === product._id ? (
+        ) : displayAddBrandForm(index) ? (
           <BrandForm product={{ id: product._id, brands, setBrands }} />
         ) : (
-          <UpdateProductForm
-            form={{ formStatus, setFormStatus }}
-            product={{ product, updateProductList }}
-          />
+          <UpdateProductForm product={{ index: index, product }} />
         )}
-        {formStatus.updateProductForm === product._id ? (
+        {displayUpdateProductForm(index) ? (
           <IconButton onClick={deleteProduct}>
             <SquareX strokeWidth={1.5} size={30} />
           </IconButton>
         ) : (
-          <IconButton
-            onClick={() => {
-              const brandForm =
-                product._id === formStatus.addBrandForm ? null : product._id;
-              setFormStatus({
-                updateProductForm: null,
-                addBrandForm: brandForm,
-              });
-            }}
-          >
-            {formStatus.addBrandForm === product._id ? (
+          <IconButton onClick={() => toggleAddBrandForm(index)}>
+            {displayAddBrandForm(index) ? (
               <SquareChevronLeft strokeWidth={1.5} size={30} />
             ) : (
               <SquareChevronRight strokeWidth={1.5} size={30} />

@@ -3,21 +3,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IProduct } from '../types';
 import { SquarePlus } from 'lucide-react';
 import IconButton from './IconButton';
+import { useListContext } from '../hooks/useListContext';
 
 type createProductForm = {
   quantity: number;
   name: string;
 };
 
-interface ProductFormProps {
-  list: {
-    id: string | undefined;
-    updateProductList: (product: IProduct, deleteProduct: boolean) => void;
-  };
-}
-
-function ProductForm({ list: { id, updateProductList } }: ProductFormProps) {
+function ProductForm({ listId }: { listId: string }) {
   const [error, setError] = React.useState<null | string>(null);
+  const { manipulateProductList } = useListContext();
   const {
     register,
     reset,
@@ -29,7 +24,7 @@ function ProductForm({ list: { id, updateProductList } }: ProductFormProps) {
   const onSubmit: SubmitHandler<createProductForm> = async (data) => {
     const { quantity, ...rest } = data;
     try {
-      const response = await fetch(`http://localhost:8080/products/${id}`, {
+      const response = await fetch(`http://localhost:8080/products/${listId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +37,7 @@ function ProductForm({ list: { id, updateProductList } }: ProductFormProps) {
       if (!product) setError('Não conseguimos cadastrar o produto.');
 
       setError(null);
-      updateProductList(product, false);
+      manipulateProductList({ product });
       setFocus('quantity');
       reset();
     } catch (error) {
