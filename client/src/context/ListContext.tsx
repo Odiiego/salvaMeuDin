@@ -17,7 +17,7 @@ type IListContext = {
     product,
   }: {
     productIndex?: number | undefined;
-    product: IProduct | undefined;
+    product?: IProduct | undefined;
   }): void;
 };
 
@@ -56,7 +56,7 @@ export const ListContextProvider = ({ children }: React.PropsWithChildren) => {
     product = undefined,
   }: {
     productIndex?: number | undefined;
-    product: IProduct | undefined;
+    product?: IProduct | undefined;
   }) {
     const listContent = list?.content;
     if (!listContent) return;
