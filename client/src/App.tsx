@@ -4,6 +4,7 @@ import Login from './layouts/Login';
 import Register from './layouts/Register';
 import User from './layouts/User';
 import List from './components/List';
+import ListContextProvider from './context/ListContext';
 
 function App() {
   return (
@@ -19,7 +20,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/user" element={<User />} />
-          <Route path="/list/:id" element={<List />} />
+          <Route
+            path="/list/:id"
+            element={
+              <ListContextProvider>
+                <List />
+              </ListContextProvider>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
