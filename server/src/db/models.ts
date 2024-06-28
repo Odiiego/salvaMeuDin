@@ -4,12 +4,26 @@ export const BrandSchema = new mongoose.Schema({
   name: { type: String },
   quantity: { type: Number },
   price: { type: Number },
+  metrics: {
+    costPerUnit: { type: Number },
+    costProjection: { type: Number },
+  },
 });
 
 export const ProductSchema = new mongoose.Schema({
   name: { type: String },
   quantity: { type: Number },
   brands: [BrandSchema],
+  bestMetrics: {
+    costPerUnit: {
+      quantity: { type: Number, default: null },
+      price: { type: Number, default: null },
+    },
+    costProjection: {
+      quantity: { type: Number, default: null },
+      price: { type: Number, default: null },
+    },
+  },
 });
 
 export const ListSchema = new mongoose.Schema({
