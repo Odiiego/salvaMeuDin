@@ -17,11 +17,11 @@ export const ProductSchema = new mongoose.Schema({
   bestMetrics: {
     costPerUnit: {
       quantity: { type: Number, default: null },
-      price: { type: Number, default: null },
+      value: { type: Number, default: null },
     },
     costProjection: {
       quantity: { type: Number, default: null },
-      price: { type: Number, default: null },
+      value: { type: Number, default: null },
     },
   },
 });
