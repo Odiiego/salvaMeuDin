@@ -16,10 +16,45 @@ export const createBrandController = async (
     const list = user?.lists.id(listId);
     const product = list?.content.id(id);
 
+    const brandCostPerUnit = (price / quantity) * 100;
+    const brandCostProjection =
+      Math.ceil(product?.quantity! / quantity) * (price * 100);
+    if (product && product.bestMetrics) {
+      product.bestMetrics.costPerUnit = {
+        quantity:
+          !product.bestMetrics?.costPerUnit?.value ||
+          product.bestMetrics.costPerUnit.value > brandCostPerUnit
+            ? quantity
+            : product.bestMetrics.costPerUnit.quantity,
+        value:
+          !product.bestMetrics?.costPerUnit?.value ||
+          product.bestMetrics.costPerUnit.value > brandCostPerUnit
+            ? brandCostPerUnit
+            : product.bestMetrics.costPerUnit.value,
+      };
+
+      product.bestMetrics.costProjection = {
+        quantity:
+          !product.bestMetrics?.costProjection?.value ||
+          product.bestMetrics.costProjection.value > brandCostPerUnit
+            ? quantity
+            : product.bestMetrics.costProjection.quantity,
+        value:
+          !product.bestMetrics?.costProjection?.value ||
+          product.bestMetrics.costProjection.value > brandCostPerUnit
+            ? brandCostProjection
+            : product.bestMetrics.costProjection.value,
+      };
+    }
+
     product?.brands.push({
       name,
       quantity,
       price: price * 100,
+      metrics: {
+        costPerUnit: brandCostPerUnit,
+        costProjection: brandCostProjection,
+      },
     });
     user?.save();
 
