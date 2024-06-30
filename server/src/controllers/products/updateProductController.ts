@@ -15,7 +15,7 @@ export const updateProductController = async (
     const list = user?.lists.id(listId);
     const product = list?.content.id(id);
     if (!product) return res.sendStatus(400);
-    if (product.quantity !== quantity) {
+    if (product.quantity !== quantity && product.brands.length > 0) {
       let bestCostProjection = { quantity: 0, value: 0 };
 
       product.brands.map((brand) => {
