@@ -10,6 +10,10 @@ export interface IProduct {
   name: string;
   quantity: number;
   brands: IBrand[];
+  bestMetrics: {
+    costPerUnit: { quantity: number; value: number };
+    costProjection: { quantity: number; value: number };
+  };
 }
 
 export interface IList {
