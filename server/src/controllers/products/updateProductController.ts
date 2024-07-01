@@ -16,7 +16,10 @@ export const updateProductController = async (
     const product = list?.content.id(id);
     if (!product) return res.sendStatus(400);
     if (product.quantity !== quantity && product.brands.length > 0) {
-      let bestCostProjection = { quantity: 0, value: 0 };
+      const metrics = {
+        costProjection: { quantity: 0, value: 0 },
+        costPerUnit: { quantity: 0, value: 0 },
+      };
 
       product.brands.map((brand) => {
         const costProjection =
@@ -25,22 +28,37 @@ export const updateProductController = async (
         if (!brand.metrics) return;
         brand.metrics.costProjection = costProjection;
 
-        bestCostProjection = {
+        metrics.costPerUnit = {
           quantity:
-            !bestCostProjection.quantity ||
-            bestCostProjection.quantity > costProjection
+            !metrics.costPerUnit.value ||
+            metrics.costPerUnit.value / metrics.costPerUnit.quantity >
+              brand.metrics.costPerUnit!
               ? brand.quantity!
-              : bestCostProjection.quantity,
+              : metrics.costPerUnit.quantity,
           value:
-            !bestCostProjection.value ||
-            bestCostProjection.value > costProjection
+            !metrics.costPerUnit.value ||
+            metrics.costPerUnit.value / metrics.costPerUnit.quantity >
+              brand.metrics.costPerUnit!
+              ? brand.metrics.costProjection!
+              : metrics.costPerUnit.value,
+        };
+
+        metrics.costProjection = {
+          quantity:
+            !metrics.costProjection.value ||
+            metrics.costProjection.value > costProjection
+              ? brand.quantity!
+              : metrics.costProjection.quantity,
+          value:
+            !metrics.costProjection.value ||
+            metrics.costProjection.value > costProjection
               ? costProjection
-              : bestCostProjection.value,
+              : metrics.costProjection.value,
         };
       });
 
       if (!product.bestMetrics) return;
-      product.bestMetrics.costProjection = bestCostProjection;
+      product.bestMetrics = metrics;
     }
 
     product.name = name ? name : product.name;
