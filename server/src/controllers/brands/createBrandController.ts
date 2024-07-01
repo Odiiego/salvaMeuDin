@@ -23,25 +23,29 @@ export const createBrandController = async (
       product.bestMetrics.costPerUnit = {
         quantity:
           !product.bestMetrics?.costPerUnit?.value ||
-          product.bestMetrics.costPerUnit.value > brandCostPerUnit
+          product.bestMetrics.costPerUnit.value /
+            product.bestMetrics.costPerUnit.quantity >
+            brandCostPerUnit
             ? quantity
             : product.bestMetrics.costPerUnit.quantity,
         value:
           !product.bestMetrics?.costPerUnit?.value ||
-          product.bestMetrics.costPerUnit.value > brandCostPerUnit
-            ? brandCostPerUnit
+          product.bestMetrics.costPerUnit.value /
+            product.bestMetrics.costPerUnit.quantity >
+            brandCostPerUnit
+            ? brandCostProjection
             : product.bestMetrics.costPerUnit.value,
       };
 
       product.bestMetrics.costProjection = {
         quantity:
           !product.bestMetrics?.costProjection?.value ||
-          product.bestMetrics.costProjection.value > brandCostPerUnit
+          product.bestMetrics.costProjection.value > brandCostProjection
             ? quantity
             : product.bestMetrics.costProjection.quantity,
         value:
           !product.bestMetrics?.costProjection?.value ||
-          product.bestMetrics.costProjection.value > brandCostPerUnit
+          product.bestMetrics.costProjection.value > brandCostProjection
             ? brandCostProjection
             : product.bestMetrics.costProjection.value,
       };
