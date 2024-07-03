@@ -46,14 +46,22 @@ function Product({ product: { index, product } }: ProductProps) {
     if (bestCostPerUnit.price && bestCostProjection.price) {
       setDefaultPrice(
         listMode === 'economia'
-          ? bestCostProjection.price
-          : bestCostPerUnit.price,
+          ? product.bestMetrics.costProjection.value
+          : product.bestMetrics.costPerUnit.value,
       );
       if (prevPrice === 0) {
         setPrevPrice(defaultPrice);
       }
     }
-  }, [brands, defaultPrice, listMode, prevPrice, product.quantity]);
+  }, [
+    brands,
+    defaultPrice,
+    listMode,
+    prevPrice,
+    product.bestMetrics.costPerUnit.value,
+    product.bestMetrics.costProjection.value,
+    product.quantity,
+  ]);
 
   React.useEffect(() => {
     const price = selectedBrand
